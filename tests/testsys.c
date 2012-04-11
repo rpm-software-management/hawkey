@@ -14,6 +14,7 @@
 #include <solv/util.h>
 
 // hawkey
+#include "src/iutil.h"
 #include "src/sack_internal.h"
 #include "testsys.h"
 
@@ -85,6 +86,7 @@ setup_empty_sack(void)
     HySack sack = hy_sack_create();
     test_globals.sack = sack;
     hy_sack_set_cache_path(sack, test_globals.tmpdir);
+    HY_LOG_INFO("HySack for UT created: %p", sack);
 }
 
 void
@@ -95,7 +97,7 @@ setup(void)
     const char *path = pool_tmpjoin(pool, test_globals.repo_dir,
 				    "system.repo", 0);
 
-    fail_if(load_repo(pool, SYSTEM_REPO_NAME, path, 1));
+    fail_if(load_repo(pool, HY_SYSTEM_REPO_NAME, path, 1));
 }
 
 void
