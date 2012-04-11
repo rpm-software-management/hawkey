@@ -182,6 +182,7 @@ hy_sack_create(void)
     else
 	sack->cache_dir = solv_strdup(DEFAULT_CACHE_ROOT);
     solv_free(username);
+    queue_init(&sack->installonly);
 
     pool_setdebugcallback(pool, log_cb, sack);
     pool_setdebugmask(pool, SOLV_ERROR | SOLV_FATAL | SOLV_WARN |
@@ -205,6 +206,7 @@ hy_sack_free(HySack sack)
     }
 
     solv_free(sack->cache_dir);
+    queue_free(&sack->installonly);
     pool_free(sack->pool);
     if (sack->log_out) {
 	const char *msg = "finished.\n";
@@ -230,6 +232,14 @@ hy_sack_set_cache_path(HySack sack, const char *path)
 {
     solv_free(sack->cache_dir);
     sack->cache_dir = solv_strdup(path);
+}
+
+void
+hy_sack_set_installonly(HySack sack, const char **installonly)
+{
+    char *name;
+    while ((name = *installonly++) != NULL)
+	queue_pushunique(&sack->installonly, pool_str2id(sack->pool, name, 1));
 }
 
 /**
