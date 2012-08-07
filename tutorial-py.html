@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Tutorial to using Hawkey in Python &mdash; Hawkey 0.2.8-1 documentation</title>
+    <title>python-hawkey Tutorial &mdash; Hawkey 0.2.8-1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,6 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Hawkey 0.2.8-1 documentation" href="index.html" />
+    <link rel="next" title="python-hawkey FAQ" href="faq-py.html" />
     <link rel="prev" title="Welcome to Hawkey’s documentation!" href="index.html" /> 
   </head>
   <body>
@@ -35,6 +36,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq-py.html" title="python-hawkey FAQ"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to Hawkey’s documentation!"
              accesskey="P">previous</a> |</li>
@@ -47,8 +51,42 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="tutorial-to-using-hawkey-in-python">
-<h1>Tutorial to using Hawkey in Python<a class="headerlink" href="#tutorial-to-using-hawkey-in-python" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="python-hawkey-tutorial">
+<h1>python-hawkey Tutorial<a class="headerlink" href="#python-hawkey-tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>First of, make sure hawkey is installed on your system, this should work from your terminal:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hawkey</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-sack-object">
+<h2>The Sack object<a class="headerlink" href="#the-sack-object" title="Permalink to this headline">¶</a></h2>
+<p><em>Sack</em> is an abstraction for a collection of packages. Sacks in hawkey are
+powerful toplevel objects hiding lots of functionality. You&#8217;ll want to create
+one:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sack</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Sack</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-rpmdb">
+<h2>Loading RPMDB<a class="headerlink" href="#loading-rpmdb" title="Permalink to this headline">¶</a></h2>
+<p>hawkey is a lib for listing, querying and resolving dependencies of <em>packages</em>
+from <em>repositories</em>. On most linux distributions you always have at least <em>the
+system repo</em> (in Fedora it is most often called &#8220;The RPM database&#8221;). To load it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sack</span><span class="o">.</span><span class="n">load_system_repo</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-yum-repositories">
+<h2>Loading Yum Repositories<a class="headerlink" href="#loading-yum-repositories" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="building-and-reusing-repo-cache">
+<h2>Building and reusing repo cache<a class="headerlink" href="#building-and-reusing-repo-cache" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -57,9 +95,24 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">python-hawkey Tutorial</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#the-sack-object">The Sack object</a></li>
+<li><a class="reference internal" href="#loading-rpmdb">Loading RPMDB</a></li>
+<li><a class="reference internal" href="#loading-yum-repositories">Loading Yum Repositories</a></li>
+<li><a class="reference internal" href="#building-and-reusing-repo-cache">Building and reusing repo cache</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Welcome to Hawkey&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq-py.html"
+                        title="next chapter">python-hawkey FAQ</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/tutorial-py.txt"
@@ -88,6 +141,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="faq-py.html" title="python-hawkey FAQ"
+             >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to Hawkey’s documentation!"
              >previous</a> |</li>

@@ -1,5 +1,6 @@
-Welcome to Hawkey's documentation!
-==================================
+####################################
+ Welcome to Hawkey's documentation!
+####################################
 
 Contents:
 
@@ -7,10 +8,11 @@ Contents:
    :maxdepth: 2
 
    tutorial-py
+   faq-py
 
 
 Indices and tables
-==================
+
 
 * :ref:`genindex`
 * :ref:`modindex`
