@@ -1,0 +1,1 @@
+Search.setIndex({objects:{},terms:{index:0,search:0,welcom:0,hawkei:[0,1],python:[0,1],modul:0,indic:0,content:0,tutori:[0,1],tabl:0,document:0,page:0},objtypes:{},titles:["Welcome to Hawkey&#8217;s documentation!","Tutorial to using Hawkey in Python"],objnames:{},filenames:["index","tutorial-py"]})
