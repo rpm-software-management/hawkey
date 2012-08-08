@@ -57,35 +57,70 @@
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
 <p>First of, make sure hawkey is installed on your system, this should work from your terminal:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">hawkey</span>
-<span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="the-sack-object">
-<h2>The Sack object<a class="headerlink" href="#the-sack-object" title="Permalink to this headline">¶</a></h2>
+<h2>The Sack Object<a class="headerlink" href="#the-sack-object" title="Permalink to this headline">¶</a></h2>
 <p><em>Sack</em> is an abstraction for a collection of packages. Sacks in hawkey are
-powerful toplevel objects hiding lots of functionality. You&#8217;ll want to create
-one:</p>
+toplevel objects carrying much of hawkey&#8217;s of functionality. You&#8217;ll want to
+create one:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sack</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Sack</span><span class="p">()</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span>
+<span class="go">0</span>
 </pre></div>
 </div>
+<p>Initially, the sack contains no packages.</p>
 </div>
 <div class="section" id="loading-rpmdb">
 <h2>Loading RPMDB<a class="headerlink" href="#loading-rpmdb" title="Permalink to this headline">¶</a></h2>
 <p>hawkey is a lib for listing, querying and resolving dependencies of <em>packages</em>
 from <em>repositories</em>. On most linux distributions you always have at least <em>the
-system repo</em> (in Fedora it is most often called &#8220;The RPM database&#8221;). To load it:</p>
+system repo</em> (in Fedora it is the RPM database). To load it:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sack</span><span class="o">.</span><span class="n">load_system_repo</span><span class="p">()</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="go">1683</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="loading-yum-repositories">
 <h2>Loading Yum Repositories<a class="headerlink" href="#loading-yum-repositories" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s be honest here: all the fun in packaging comes from packages you haven&#8217;t
+installed yet. Information about them, their <em>metadata</em>, can be obtained from
+different sources and typically however they are downloaded from an HTTP mirror
+(another possibilities are FTP server, NFS mount, DVD distribution media,
+etc.). Hawkey does not provide any means to discover and obtain the metadata
+locally: it is up to the client to provide valid readable paths to the Yum
+metadata XML files. Structures used for passing the information to hawkey are
+the hawkey Repos. Suppose we somehow obtained the metadata and placed it in
+<tt class="docutils literal"><span class="pre">/home/akozumpl/tmp/repodata</span></tt>. We can then load the metadata into hawkey:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/akozumpl/tmp/repodata/</span><span class="si">%s</span><span class="s">&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Repo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;experimental&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">repomd_fn</span> <span class="o">=</span> <span class="n">path</span> <span class="o">%</span> <span class="s">&quot;repomd.xml&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">primary_fn</span> <span class="o">=</span> <span class="n">path</span> <span class="o">%</span> <span class="s">&quot;f7753a2636cc89d70e8aaa1f3c08413ab78462ca9f48fd55daf6dedf9ab0d5db-primary.xml.gz&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">repo</span><span class="o">.</span><span class="n">filelists_fn</span> <span class="o">=</span> <span class="n">path</span> <span class="o">%</span> <span class="s">&quot;0261e25e8411f4f5e930a70fa249b8afd5e86bb9087d7739b55be64b76d8a7f6-filelists.xml.gz&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sack</span><span class="o">.</span><span class="n">load_yum_repo</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">load_filelists</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span>
+<span class="go">1685</span>
+</pre></div>
 </div>
-<div class="section" id="building-and-reusing-repo-cache">
-<h2>Building and reusing repo cache<a class="headerlink" href="#building-and-reusing-repo-cache" title="Permalink to this headline">¶</a></h2>
+<p>The number of packages in the Sack will increase by the number of packages found
+in the repository (two in this case, it is an experimental repo after all).</p>
+</div>
+<div class="section" id="case-for-loading-the-filelists">
+<h2>Case for Loading the Filelists<a class="headerlink" href="#case-for-loading-the-filelists" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="building-and-reusing-the-repo-cache">
+<h2>Building and Reusing the Repo Cache<a class="headerlink" href="#building-and-reusing-the-repo-cache" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="queries">
+<h2>Queries<a class="headerlink" href="#queries" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="goals-i-want-to-install-x-what-are-the-deps-i-m-missing">
+<h2>Goals: &#8220;I want to install X, what are the deps I&#8217;m missing?&#8221;<a class="headerlink" href="#goals-i-want-to-install-x-what-are-the-deps-i-m-missing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="query-installs">
+<h3>Query Installs<a class="headerlink" href="#query-installs" title="Permalink to this headline">¶</a></h3>
+</div>
 </div>
 </div>
 
@@ -99,10 +134,16 @@ system repo</em> (in Fedora it is most often called &#8220;The RPM database&#822
   <ul>
 <li><a class="reference internal" href="#">python-hawkey Tutorial</a><ul>
 <li><a class="reference internal" href="#setup">Setup</a></li>
-<li><a class="reference internal" href="#the-sack-object">The Sack object</a></li>
+<li><a class="reference internal" href="#the-sack-object">The Sack Object</a></li>
 <li><a class="reference internal" href="#loading-rpmdb">Loading RPMDB</a></li>
 <li><a class="reference internal" href="#loading-yum-repositories">Loading Yum Repositories</a></li>
-<li><a class="reference internal" href="#building-and-reusing-repo-cache">Building and reusing repo cache</a></li>
+<li><a class="reference internal" href="#case-for-loading-the-filelists">Case for Loading the Filelists</a></li>
+<li><a class="reference internal" href="#building-and-reusing-the-repo-cache">Building and Reusing the Repo Cache</a></li>
+<li><a class="reference internal" href="#queries">Queries</a></li>
+<li><a class="reference internal" href="#goals-i-want-to-install-x-what-are-the-deps-i-m-missing">Goals: &#8220;I want to install X, what are the deps I&#8217;m missing?&#8221;</a><ul>
+<li><a class="reference internal" href="#query-installs">Query Installs</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

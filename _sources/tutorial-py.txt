@@ -10,17 +10,19 @@ Setup
 First of, make sure hawkey is installed on your system, this should work from your terminal::
 
   >>> import hawkey
-  >>>
 
-The Sack object
+The Sack Object
 ===============
 
 *Sack* is an abstraction for a collection of packages. Sacks in hawkey are
-powerful toplevel objects hiding lots of functionality. You'll want to create
-one::
+toplevel objects carrying much of hawkey's of functionality. You'll want to
+create one::
 
    >>> sack = hawkey.Sack()
-   >>>
+   >>> len(sack)
+   0
+
+Initially, the sack contains no packages.
 
 
 Loading RPMDB
@@ -28,16 +30,51 @@ Loading RPMDB
 
 hawkey is a lib for listing, querying and resolving dependencies of *packages*
 from *repositories*. On most linux distributions you always have at least *the
-system repo* (in Fedora it is most often called "The RPM database"). To load it::
+system repo* (in Fedora it is the RPM database). To load it::
 
   >>> sack.load_system_repo()
-  >>>
+  1683
+
 
 Loading Yum Repositories
 ========================
 
+Let's be honest here: all the fun in packaging comes from packages you haven't
+installed yet. Information about them, their *metadata*, can be obtained from
+different sources and typically however they are downloaded from an HTTP mirror
+(another possibilities are FTP server, NFS mount, DVD distribution media,
+etc.). Hawkey does not provide any means to discover and obtain the metadata
+locally: it is up to the client to provide valid readable paths to the Yum
+metadata XML files. Structures used for passing the information to hawkey are
+the hawkey Repos. Suppose we somehow obtained the metadata and placed it in
+``/home/akozumpl/tmp/repodata``. We can then load the metadata into hawkey::
 
-Building and reusing repo cache
-===============================
+  >>> path = "/home/akozumpl/tmp/repodata/%s"
+  >>> repo = hawkey.Repo()
+  >>> repo.name = "experimental"
+  >>> repo.repomd_fn = path % "repomd.xml"
+  >>> repo.primary_fn = path % "f7753a2636cc89d70e8aaa1f3c08413ab78462ca9f48fd55daf6dedf9ab0d5db-primary.xml.gz"
+  >>> repo.filelists_fn = path % "0261e25e8411f4f5e930a70fa249b8afd5e86bb9087d7739b55be64b76d8a7f6-filelists.xml.gz"
+  >>> sack.load_yum_repo(repo, load_filelists=True)
+  >>> len(sack)
+  1685
 
+The number of packages in the Sack will increase by the number of packages found
+in the repository (two in this case, it is an experimental repo after all).
+
+Case for Loading the Filelists
+==============================
+
+
+Building and Reusing the Repo Cache
+===================================
+
+Queries
+=======
+
+Goals: "I want to install X, what are the deps I'm missing?"
+============================================================
+
+Query Installs
+--------------
 
