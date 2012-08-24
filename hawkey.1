@@ -1,4 +1,4 @@
-.TH "HAWKEY" "1" "August 07, 2012" "0.2.8" "Hawkey"
+.TH "HAWKEY" "1" "August 24, 2012" "0.2.8" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -32,6 +32,336 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .
 .sp
 Contents:
+.SH PYTHON-HAWKEY TUTORIAL
+.SS Contents
+.INDENT 0.0
+.IP \(bu 2
+\fI\%python-hawkey Tutorial\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Setup\fP
+.IP \(bu 2
+\fI\%The Sack Object\fP
+.IP \(bu 2
+\fI\%Loading RPMDB\fP
+.IP \(bu 2
+\fI\%Loading Yum Repositories\fP
+.IP \(bu 2
+\fI\%Case for Loading the Filelists\fP
+.IP \(bu 2
+\fI\%Building and Reusing the Repo Cache\fP
+.IP \(bu 2
+\fI\%Queries\fP
+.IP \(bu 2
+\fI\%Resolving things with Goals\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Query Installs\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Setup
+.sp
+First of, make sure hawkey is installed on your system, this should work from your terminal:
+.sp
+.nf
+.ft C
+>>> import hawkey
+.ft P
+.fi
+.SS The Sack Object
+.sp
+\fISack\fP is an abstraction for a collection of packages. Sacks in hawkey are
+toplevel objects carrying much of hawkey\(aqs of functionality. You\(aqll want to
+create one:
+.sp
+.nf
+.ft C
+>>> sack = hawkey.Sack()
+>>> len(sack)
+0
+.ft P
+.fi
+.sp
+Initially, the sack contains no packages.
+.SS Loading RPMDB
+.sp
+hawkey is a lib for listing, querying and resolving dependencies of \fIpackages\fP
+from \fIrepositories\fP. On most linux distributions you always have at least \fIthe
+system repo\fP (in Fedora it is the RPM database). To load it:
+.sp
+.nf
+.ft C
+>>> sack.load_system_repo()
+>>> len(sack)
+1683
+.ft P
+.fi
+.sp
+Hawkey always knows the name of every repository. Repositories loaded from Yum
+are named by the user, the system repostiroy is always called \fB@System\fP.
+.SS Loading Yum Repositories
+.sp
+Let\(aqs be honest here: all the fun in packaging comes from packages you haven\(aqt
+installed yet. Information about them, their \fImetadata\fP, can be obtained from
+different sources and typically they are downloaded from an HTTP mirror (another
+possibilities are FTP server, NFS mount, DVD distribution media, etc.). Hawkey
+does not provide any means to discover and obtain the metadata locally: it is up
+to the client to provide valid readable paths to the Yum metadata XML
+files. Structures used for passing the information to hawkey are the hawkey
+\fBRepos\fP. Suppose we somehow obtained the metadata and placed it in
+\fB/home/akozumpl/tmp/repodata\fP. We can then load the metadata into hawkey:
+.sp
+.nf
+.ft C
+>>> path = "/home/akozumpl/tmp/repodata/%s"
+>>> repo = hawkey.Repo()
+>>> repo.name = "experimental"
+>>> repo.repomd_fn = path % "repomd.xml"
+>>> repo.primary_fn = path % "f7753a2636cc89d70e8aaa1f3c08413ab78462ca9f48fd55daf6dedf9ab0d5db\-primary.xml.gz"
+>>> repo.filelists_fn = path % "0261e25e8411f4f5e930a70fa249b8afd5e86bb9087d7739b55be64b76d8a7f6\-filelists.xml.gz"
+>>> sack.load_yum_repo(repo, load_filelists=True)
+>>> len(sack)
+1685
+.ft P
+.fi
+.sp
+The number of packages in the Sack will increase by the number of packages found
+in the repository (two in this case, it is an experimental repo after all).
+.SS Case for Loading the Filelists
+.sp
+What the \fBload_filelists=True\fP argument to \fBload_yum_repo()\fP above does is
+instruct hawkey to process the \fB<hash>filelists.xml.gz\fP file we passed in and
+which contains structured list of absolute paths to all files of all packages
+within the repo. This information can be used for two purposes:
+.INDENT 0.0
+.IP \(bu 2
+Finding a package providing given file. For instance, you need the file
+\fB/usr/share/man/man3/fprintf.3.gz\fP which is not installed. Consulting
+filelists (directly or through hawkey) can reveal the file is in the
+\fBman\-pages\fP package.
+.IP \(bu 2
+Depsolving. Some packages require concrete files as their dependencies. To
+know if these are resolvable and how, the solver needs to know what package
+provides what files.
+.UNINDENT
+.sp
+Some files provided by a package (e.g those in \fB/usr/bin\fP) are always visible
+even without loading the filelists. Well\-behaved packages requiring only those
+can be thus resolved directly. Unortunately, there are packages that don\(aqt
+behave and it is hard to tell in advance when you\(aqll deal with one.
+.sp
+The strategy for using \fBload_filelists=True\fP is thus:
+.INDENT 0.0
+.IP \(bu 2
+Use it if you know you\(aqll do resolving (i.e. you\(aqll use \fBGoal\fP).
+.IP \(bu 2
+Use it if you know you\(aqll be trying to match files to their packages.
+.IP \(bu 2
+Use it if you are not sure.
+.UNINDENT
+.SS Building and Reusing the Repo Cache
+.sp
+Internally to hold the package information and perform canonical resolving
+hawkey uses \fI\%Libsolv\fP. One great benefit this library offers is providing
+writing and reading of metadata cache files in libsolv\(aqs own binary format
+(files with \fB.solv\fP extension, typically). At a cost of few hundreds of
+milliseconds, using the solv files reduces repo load times from seconds to tens
+of milliseconds. It is thus a good idea to write and use the solv files every
+time you plan to use the same repo for more than one Sack (which is at least
+every time your hawkey program is run). To do that use \fBbuild_cache=True\fP with
+\fBload_yum_repo()\fP and \fBload_system_repo()\fP:
+.sp
+.nf
+.ft C
+>>> sack.load_system_repo(build_cache=True)
+.ft P
+.fi
+.sp
+By default, Hawkey creates \fB@System.cache\fP under the
+\fB/var/tmp/hawkey\-<your_login>\-<random_hash>\fP directory. This is the hawkey
+cache directory, which you can always delete later (deleting the cache files in
+the process). The \fB.solv\fP files are picked up automatically the next time you
+try to create a hawkey sack. Except for a much higher speed of the operation
+this will be completely transparent to you:
+.sp
+.nf
+.ft C
+>>> s2 = hawkey.Sack()
+>>> s2.load_system_repo()
+.ft P
+.fi
+.sp
+By the way, the cache directory also contains a logfile with some boring
+debugging information.
+.SS Queries
+.sp
+Query is the means in hawkey of finding a package based on one or more criteria
+(name, version, repository of origin). Its interface is loosely based on
+\fI\%Django's QuerySets\fP, the main concepts being:
+.INDENT 0.0
+.IP \(bu 2
+a fresh Query object matches all packages in the Sack and the selection is
+gradually narrowed down by calls to \fBQuery.filter()\fP
+.IP \(bu 2
+applying a \fBQuery.filter()\fP does not start to evaluate the Query, i.e. the
+Query is lazy. Query is only evaluated when we explicitly tell it to or when
+we start to iterate it.
+.IP \(bu 2
+use Python keyword arguments to \fBQuery.filter()\fP to specify the filtering
+criteria.
+.UNINDENT
+.sp
+For instance, let\(aqs say I want to find all installed packages which name ends
+with \fBgtk\fP:
+.sp
+.nf
+.ft C
+>>> q = hawkey.Query(sack)
+>>> q.filter(repo=hawkey.SYSTEM_REPO_NAME, name__glob=\(aq*gtk\(aq)
+<hawkey.Query object at 0x7fa477e73320>
+>>> for pkg in q:
+\&...     print str(pkg)
+\&...
+NetworkManager\-gtk\-1:0.9.4.0\-9.git20120521.fc17.x86_64
+authconfig\-gtk\-6.2.1\-1.fc17.x86_64
+clutter\-gtk\-1.2.0\-1.fc17.x86_64
+libchamplain\-gtk\-0.12.2\-1.fc17.x86_64
+libreport\-gtk\-2.0.10\-3.fc17.x86_64
+pinentry\-gtk\-0.8.1\-6.fc17.x86_64
+python\-slip\-gtk\-0.2.20\-2.fc17.noarch
+transmission\-gtk\-2.50\-2.fc17.x86_64
+usermode\-gtk\-1.109\-1.fc17.x86_64
+webkitgtk\-1.8.1\-2.fc17.x86_64
+xdg\-user\-dirs\-gtk\-0.9\-1.fc17.x86_64
+.ft P
+.fi
+.sp
+Or I want to find the latest version of all \fBpython\fP packages the Sack knows of:
+.sp
+.nf
+.ft C
+>>> q.clear()
+>>> q.filter(name=\(aqpython\(aq, latest=True)
+<hawkey.Query object at 0x7fa477e73460>
+>>> for pkg in q:
+\&...     print str(pkg)
+\&...
+python\-2.7.3\-6.fc17.x86_64
+.ft P
+.fi
+.SS Resolving things with Goals
+.sp
+Many \fBSack\fP sessions culminate in bout of dependency resolving, that is
+answering a question along the lines of "I have a package X in a repository
+here, what other packages do I need to install/update to have X installed and
+all its dependencies recursively satisfied?" Suppose we want to install \fI\%the RTS
+game Spring\fP. First let\(aqs locate the latest version of
+the package in repositories:
+.sp
+.nf
+.ft C
+>>> q = hawkey.Query(sack).filter(name=\(aqspring\(aq, latest=True)
+>>> pkg = hawkey.Query(sack).filter(name=\(aqspring\(aq, latest=True)[0]
+>>> str(pkg)
+\(aqspring\-88.0\-2.fc17.x86_64\(aq
+>>> pkg.reponame
+\(aqfedora\(aq
+.ft P
+.fi
+.sp
+Then build the \fBGoal\fP object and tell it our goal is installing the
+\fBpkg\fP. Then we fire off the libsolv\(aqs dependency resolver by running the
+goal:
+.sp
+.nf
+.ft C
+>>> g = hawkey.Goal(sack)
+>>> g.install(pkg)
+>>> g.run()
+True
+.ft P
+.fi
+.sp
+\fBTrue\fP as a return value here indicates that libsolv could find a solution to
+our goal. This is not always the case, there are plenty of situations when there
+is no solution, the most common one being a package should be installed but one
+of its dependnecies is missing from the sack.
+.sp
+The three methods \fBGoal.list_installs()\fP, \fBGoal.list_upgrades()\fP and
+\fBGoal.list_erasures()\fP can show which packages should be
+installed/upgraded/erased to satisfy the packaging goal we set out to achieve
+(the mapping of \fBstr()\fP over the results below ensures human readable
+package names instead of numbers are presented):
+.sp
+.nf
+.ft C
+>>> map(str, g.list_installs())
+[\(aqspring\-88.0\-2.fc17.x86_64\(aq, \(aqspring\-installer\-20090316\-10.fc17.x86_64\(aq, \(aqspringlobby\-0.139\-3.fc17.x86_64\(aq, \(aqspring\-maps\-default\-0.1\-8.fc17.noarch\(aq, \(aqwxBase\-2.8.12\-4.fc17.x86_64\(aq, \(aqwxGTK\-2.8.12\-4.fc17.x86_64\(aq, \(aqrb_libtorrent\-0.15.9\-1.fc17.x86_64\(aq, \(aqGeoIP\-1.4.8\-2.1.fc17.x86_64\(aq]
+>>> map(str, g.list_upgrades())
+[]
+>>> map(str, g.list_erasures())
+[]
+.ft P
+.fi
+.sp
+So what does it tell us? That given the state of the given system and the given
+repository we used, 8 packages need to be installed,
+\fBspring\-88.0\-2.fc17.x86_64\fP itself included. No packages need to be upgraded
+or erased.
+.SS Query Installs
+.sp
+For certain very simple queries we can do installs directly without ever executing them:
+.sp
+.nf
+.ft C
+>>> g = hawkey.Goal(sack)
+>>> q = hawkey.Query(sack).filter(name=\(aqspring\(aq)
+>>> g.install(query=q)
+>>> g.run()
+True
+>>> map(str, g.list_installs())
+[\(aqspring\-88.0\-2.fc17.x86_64\(aq, \(aqspring\-installer\-20090316\-10.fc17.x86_64\(aq, \(aqspringlobby\-0.139\-3.fc17.x86_64\(aq, \(aqspring\-maps\-default\-0.1\-8.fc17.noarch\(aq, \(aqwxBase\-2.8.12\-4.fc17.x86_64\(aq, \(aqwxGTK\-2.8.12\-4.fc17.x86_64\(aq, \(aqrb_libtorrent\-0.15.9\-1.fc17.x86_64\(aq, \(aqGeoIP\-1.4.8\-2.1.fc17.x86_64\(aq]
+>>> len(g.list_upgrades())
+0
+>>> len(g.list_erasures())
+0
+.ft P
+.fi
+.sp
+Notice we arrived at the same result as before, when the query got iterated
+first. When a \fBQuery\fP is passed directly to \fBGoal.install()\fP hawkey
+examines the query and without running it instructs libsolv to find \fIthe best
+matching package\fP for it and add that for installation. It saves user some
+deicsions like which version should be installed or what architecture (this gets
+very relevant with multiarch libraries).
+.sp
+Think about the queries in this context more as \fIspecifiers\fP and less as \fIchain
+of filters\fP. Not all kinds of Query filters can used for Goal as when searching
+for a package. In fact in this context, currently only \fBname\fP and \fBarch\fP
+filters are recognized, the others raise an error:
+.sp
+.nf
+.ft C
+>>> goal = hawkey.Goal(sack)
+>>> goal.install(query=hawkey.Query(sack).filter(name=\(aqspring\(aq, repo=\(aqfedora\(aq))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+_hawkey.QueryException: Query unsupported in this context.
+.ft P
+.fi
+.sp
+If you mean to install \fIall packages\fP matching an arbitrarily complex query,
+just use the method describe above:
+.sp
+.nf
+.ft C
+>>> map(goal.install, q)
+.ft P
+.fi
+.SH PYTHON-HAWKEY FAQ
+.sp
+Indices and tables
 .INDENT 0.0
 .IP \(bu 2
 \fIgenindex\fP
