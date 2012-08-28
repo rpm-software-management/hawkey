@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API Changes &mdash; Hawkey 0.2.10-1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.10-1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Hawkey 0.2.10-1 documentation" href="index.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="Hawkey, the libsolv API Simplified" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Hawkey, the libsolv API Simplified"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Hawkey 0.2.10-1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api-changes">
+<h1>API Changes<a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h1>
+<p>This documents describes the API changes the library users should be aware of
+before upgrading to each respective version. It is a plan to have the amount of
+changes requiring changing the client code go to a minimum after the library
+hits the 1.0.0 version.</p>
+<div class="section" id="changes-in-0-2-10">
+<h2>Changes in 0.2.10<a class="headerlink" href="#changes-in-0-2-10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-bindings">
+<h3>Python bindings<a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h3>
+<p><tt class="xref py py-meth docutils literal"><span class="pre">Query.filter()</span></tt> now returns a new instance of <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt>, the same as
+the original with the new filtering applied. This allows for greater flexibility
+handling the <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt> objects and resembles the way <tt class="docutils literal"><span class="pre">QuerySets</span></tt> behave in
+Django.</p>
+<p>In practice the following code will stop working as expected:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sack</span><span class="p">)</span>
+<span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name__eq</span><span class="o">=</span><span class="s">&quot;flying&quot;</span><span class="p">)</span>
+<span class="c"># processing the query ...</span>
+</pre></div>
+</div>
+<p>It needs to be changed to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sack</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name__eq</span><span class="o">=</span><span class="s">&quot;flying&quot;</span><span class="p">)</span>
+<span class="c"># processing the query ...</span>
+</pre></div>
+</div>
+<p>The original semantics is now available via the <tt class="xref py py-meth docutils literal"><span class="pre">Query.filterm()</span></tt> method, so
+the following will also work:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sack</span><span class="p">)</span>
+<span class="n">q</span><span class="o">.</span><span class="n">filterm</span><span class="p">(</span><span class="n">name__eq</span><span class="o">=</span><span class="s">&quot;flying&quot;</span><span class="p">)</span>
+<span class="c"># processing the query ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API Changes</a><ul>
+<li><a class="reference internal" href="#changes-in-0-2-10">Changes in 0.2.10</a><ul>
+<li><a class="reference internal" href="#python-bindings">Python bindings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Hawkey, the libsolv API Simplified</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">FAQ</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/changes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Hawkey, the libsolv API Simplified"
+             >previous</a> |</li>
+        <li><a href="index.html">Hawkey 0.2.10-1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Aleš Kozumplík.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
