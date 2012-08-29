@@ -1,4 +1,4 @@
-.TH "HAWKEY" "1" "August 28, 2012" "0.2.10" "Hawkey"
+.TH "HAWKEY" "1" "August 29, 2012" "0.2.10" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -34,9 +34,9 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 Contents:
 .SH API CHANGES
 .sp
-This documents describes the API changes the library users should be aware of
-before upgrading to each respective version. It is a plan to have the amount of
-changes requiring changing the client code go to a minimum after the library
+This document describes the API changes the library users should be aware of
+before upgrading to each respective version. It is our plan to have the amount
+of changes requiring changing the client code go to a minimum after the library
 hits the 1.0.0 version.
 .SS Changes in 0.2.10
 .SS Python bindings
@@ -90,6 +90,14 @@ q.filterm(name__eq="flying")
 .IP \(bu 2
 \fI\%Are there examples using hawkey?\fP
 .UNINDENT
+.IP \(bu 2
+\fI\%Using Hawkey\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%How do I obtain the repo metadata files to feed to Hawkey?\fP
+.IP \(bu 2
+\fI\%Why is a tool to do the downloads not integrated into Hawkey?\fP
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .SS Getting Started
@@ -104,7 +112,24 @@ Yes, look at:
 \fI\%unit tests\fP
 .IP \(bu 2
 \fI\%The Hawkey Testing Hack\fP
+.IP \(bu 2
+a more complex example is \fI\%DNF\fP, the Yum fork using hawkey for backend.
 .UNINDENT
+.SS Using Hawkey
+.SS How do I obtain the repo metadata files to feed to Hawkey?
+.sp
+It is entirely up to you. Hawkey does not provide any means to do this
+automatically, for instance from your \fI/etc/yum.repos.d\fP configuration. Use or
+build tools to do that. For instance, both Yum and DNF deals with the same
+problem and inside they employ \fI\%urlgrabber\fP to
+fetch the files. A general solution if you work in C is for instance \fI\%libcurl\fP.  If you are building a nice downloading library that
+integrates well with hawkey, let us know.
+.SS Why is a tool to do the downloads not integrated into Hawkey?
+.sp
+Because downloading things from remote servers is a differnt domain full of its
+own complexities like HTTPS, parallel downloads, error handling and error
+recovery to name a few. Downloading is a concern that can be naturally separated
+from other parts of package metadata managing.
 .SH PYTHON-HAWKEY TUTORIAL
 .SS Contents
 .INDENT 0.0
