@@ -52,15 +52,31 @@
           <div class="body">
             
   <div class="section" id="api-changes">
-<h1>API Changes<a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id2">API Changes</a><a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#api-changes" id="id2">API Changes</a><ul>
+<li><a class="reference internal" href="#changes-in-0-2-10" id="id3">Changes in 0.2.10</a><ul>
+<li><a class="reference internal" href="#python-bindings" id="id4">Python bindings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-2-11" id="id5">Changes in 0.2.11</a><ul>
+<li><a class="reference internal" href="#id1" id="id6">Python bindings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 <p>This document describes the API changes the library users should be aware of
 before upgrading to each respective version. It is our plan to have the amount
 of changes requiring changing the client code go to a minimum after the library
 hits the 1.0.0 version.</p>
 <div class="section" id="changes-in-0-2-10">
-<h2>Changes in 0.2.10<a class="headerlink" href="#changes-in-0-2-10" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Changes in 0.2.10</a><a class="headerlink" href="#changes-in-0-2-10" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="python-bindings">
-<h3>Python bindings<a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Python bindings</a><a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h3>
 <p><tt class="xref py py-meth docutils literal"><span class="pre">Query.filter()</span></tt> now returns a new instance of <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt>, the same as
 the original with the new filtering applied. This allows for greater flexibility
 handling the <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt> objects and resembles the way <tt class="docutils literal"><span class="pre">QuerySets</span></tt> behave in
@@ -86,6 +102,18 @@ the following will also work:</p>
 </div>
 </div>
 </div>
+<div class="section" id="changes-in-0-2-11">
+<h2><a class="toc-backref" href="#id5">Changes in 0.2.11</a><a class="headerlink" href="#changes-in-0-2-11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id6">Python bindings</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>In Python&#8217;s <tt class="xref py py-class docutils literal"><span class="pre">Package</span></tt> instances accessors for string attributes now
+return None instead of the empty string if the attribute is missing (for instance
+a <tt class="docutils literal"><span class="pre">pkg.sourcerpm</span></tt> now returns None if <tt class="docutils literal"><span class="pre">pkg</span></tt> is a source rpm package
+already).</p>
+<p>This change is towards a more conventional Python practice. Also, this leaves the
+empty string return value free to be used when it is actually the case.</p>
+</div>
+</div>
 </div>
 
 
@@ -99,6 +127,10 @@ the following will also work:</p>
 <li><a class="reference internal" href="#">API Changes</a><ul>
 <li><a class="reference internal" href="#changes-in-0-2-10">Changes in 0.2.10</a><ul>
 <li><a class="reference internal" href="#python-bindings">Python bindings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-2-11">Changes in 0.2.11</a><ul>
+<li><a class="reference internal" href="#id1">Python bindings</a></li>
 </ul>
 </li>
 </ul>
@@ -149,7 +181,7 @@ the following will also work:</p>
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Aleš Kozumplík.
+        &copy; Copyright 2012, Red Hat.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
