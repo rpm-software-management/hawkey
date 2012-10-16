@@ -52,29 +52,31 @@
           <div class="body">
             
   <div class="section" id="api-changes">
-<h1><a class="toc-backref" href="#id4">API Changes</a><a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id5">API Changes</a><a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#api-changes" id="id4">API Changes</a><ul>
-<li><a class="reference internal" href="#changes-in-0-2-10" id="id5">Changes in 0.2.10</a><ul>
-<li><a class="reference internal" href="#python-bindings" id="id6">Python bindings</a></li>
+<li><a class="reference internal" href="#api-changes" id="id5">API Changes</a><ul>
+<li><a class="reference internal" href="#changes-in-0-2-10" id="id6">Changes in 0.2.10</a><ul>
+<li><a class="reference internal" href="#python-bindings" id="id7">Python bindings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-2-11" id="id7">Changes in 0.2.11</a><ul>
-<li><a class="reference internal" href="#id1" id="id8">Python bindings</a></li>
+<li><a class="reference internal" href="#changes-in-0-2-11" id="id8">Changes in 0.2.11</a><ul>
+<li><a class="reference internal" href="#id1" id="id9">Python bindings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-2-13" id="id9">Changes in 0.2.13</a><ul>
-<li><a class="reference internal" href="#core" id="id10">Core</a><ul>
-<li><a class="reference internal" href="#query-key-for-reponame-filtering" id="id11">Query: key for reponame filtering</a></li>
-<li><a class="reference internal" href="#repo-initialization" id="id12">Repo initialization</a></li>
+<li><a class="reference internal" href="#changes-in-0-3-0" id="id10">Changes in 0.3.0</a><ul>
+<li><a class="reference internal" href="#core" id="id11">Core</a><ul>
+<li><a class="reference internal" href="#query-key-for-reponame-filtering" id="id12">Query: key for reponame filtering</a></li>
+<li><a class="reference internal" href="#repo-initialization" id="id13">Repo initialization</a></li>
+<li><a class="reference internal" href="#query-installs-obsoleted" id="id14">Query installs obsoleted</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id2" id="id13">Python bindings</a><ul>
-<li><a class="reference internal" href="#query-filtering-by-repository-with-the-reponame-key" id="id14">Query: filtering by repository with the reponame key</a></li>
-<li><a class="reference internal" href="#package-removed-methods-for-direct-evr-comparison" id="id15">Package: removed methods for direct EVR comparison</a></li>
-<li><a class="reference internal" href="#id3" id="id16">Repo initialization</a></li>
+<li><a class="reference internal" href="#id2" id="id15">Python bindings</a><ul>
+<li><a class="reference internal" href="#query-filtering-by-repository-with-the-reponame-key" id="id16">Query: filtering by repository with the reponame key</a></li>
+<li><a class="reference internal" href="#package-removed-methods-for-direct-evr-comparison" id="id17">Package: removed methods for direct EVR comparison</a></li>
+<li><a class="reference internal" href="#id3" id="id18">Repo initialization</a></li>
+<li><a class="reference internal" href="#id4" id="id19">Query installs obsoleted</a></li>
 </ul>
 </li>
 </ul>
@@ -88,9 +90,9 @@ before upgrading to each respective version. It is our plan to have the amount
 of changes requiring changing the client code go to a minimum after the library
 hits the 1.0.0 version.</p>
 <div class="section" id="changes-in-0-2-10">
-<h2><a class="toc-backref" href="#id5">Changes in 0.2.10</a><a class="headerlink" href="#changes-in-0-2-10" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Changes in 0.2.10</a><a class="headerlink" href="#changes-in-0-2-10" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="python-bindings">
-<h3><a class="toc-backref" href="#id6">Python bindings</a><a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Python bindings</a><a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h3>
 <p><tt class="xref py py-meth docutils literal"><span class="pre">Query.filter()</span></tt> now returns a new instance of <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt>, the same as
 the original with the new filtering applied. This allows for greater flexibility
 handling the <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt> objects and resembles the way <tt class="docutils literal"><span class="pre">QuerySets</span></tt> behave in
@@ -117,9 +119,9 @@ the following will also work:</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-2-11">
-<h2><a class="toc-backref" href="#id7">Changes in 0.2.11</a><a class="headerlink" href="#changes-in-0-2-11" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Changes in 0.2.11</a><a class="headerlink" href="#changes-in-0-2-11" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3><a class="toc-backref" href="#id8">Python bindings</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Python bindings</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>In Python&#8217;s <tt class="xref py py-class docutils literal"><span class="pre">Package</span></tt> instances accessors for string attributes now
 return None instead of the empty string if the attribute is missing (for instance
 a <tt class="docutils literal"><span class="pre">pkg.sourcerpm</span></tt> now returns None if <tt class="docutils literal"><span class="pre">pkg</span></tt> is a source rpm package
@@ -128,25 +130,34 @@ already).</p>
 empty string return value free to be used when it is actually the case.</p>
 </div>
 </div>
-<div class="section" id="changes-in-0-2-13">
-<h2><a class="toc-backref" href="#id9">Changes in 0.2.13</a><a class="headerlink" href="#changes-in-0-2-13" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="changes-in-0-3-0">
+<h2><a class="toc-backref" href="#id10">Changes in 0.3.0</a><a class="headerlink" href="#changes-in-0-3-0" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="core">
-<h3><a class="toc-backref" href="#id10">Core</a><a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Core</a><a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="query-key-for-reponame-filtering">
-<h4><a class="toc-backref" href="#id11">Query: key for reponame filtering</a><a class="headerlink" href="#query-key-for-reponame-filtering" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id12">Query: key for reponame filtering</a><a class="headerlink" href="#query-key-for-reponame-filtering" title="Permalink to this headline">¶</a></h4>
 <p>The Query key value used for filtering by the repo name is <tt class="docutils literal"><span class="pre">HY_PKG_REPONAME</span></tt>
 now (was <tt class="docutils literal"><span class="pre">HY_PKG_REPO</span></tt>). The old value was misleading.</p>
 </div>
 <div class="section" id="repo-initialization">
-<h4><a class="toc-backref" href="#id12">Repo initialization</a><a class="headerlink" href="#repo-initialization" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id13">Repo initialization</a><a class="headerlink" href="#repo-initialization" title="Permalink to this headline">¶</a></h4>
 <p><tt class="docutils literal"><span class="pre">hy_repo_create()</span></tt> for Repo object initialization now needs to be passed a
 name of the repository.</p>
 </div>
+<div class="section" id="query-installs-obsoleted">
+<span id="changes-query-installs"></span><h4><a class="toc-backref" href="#id14">Query installs obsoleted</a><a class="headerlink" href="#query-installs-obsoleted" title="Permalink to this headline">¶</a></h4>
+<p>All Goal methods accepting Query as the means of selecting packages, such as
+<tt class="docutils literal"><span class="pre">hy_goal_install_query()</span></tt> have been replaced with their Selector
+counterparts. Selector structures have been introduced for the particular
+purpose of specifying a package that best matches the given criteria and at the
+same time is suitable for installation. For a discussion of this decision see
+<a class="reference internal" href="rationale.html#rationale-selectors"><em>Selectors are not Queries</em></a>.</p>
+</div>
 </div>
 <div class="section" id="id2">
-<h3><a class="toc-backref" href="#id13">Python bindings</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Python bindings</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="query-filtering-by-repository-with-the-reponame-key">
-<h4><a class="toc-backref" href="#id14">Query: filtering by repository with the reponame key</a><a class="headerlink" href="#query-filtering-by-repository-with-the-reponame-key" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id16">Query: filtering by repository with the reponame key</a><a class="headerlink" href="#query-filtering-by-repository-with-the-reponame-key" title="Permalink to this headline">¶</a></h4>
 <p>Similar change happened in Python, the following constructs:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s">&quot;updates&quot;</span><span class="p">)</span>
 </pre></div>
@@ -160,7 +171,7 @@ query and dynamically get the reponame attribute from the returned packages
 (used e.g. in DNF to search by user-specified criteria).</p>
 </div>
 <div class="section" id="package-removed-methods-for-direct-evr-comparison">
-<h4><a class="toc-backref" href="#id15">Package: removed methods for direct EVR comparison</a><a class="headerlink" href="#package-removed-methods-for-direct-evr-comparison" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id17">Package: removed methods for direct EVR comparison</a><a class="headerlink" href="#package-removed-methods-for-direct-evr-comparison" title="Permalink to this headline">¶</a></h4>
 <p>The following will no longer work:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">pkg</span><span class="o">.</span><span class="n">evr_eq</span><span class="p">(</span><span class="n">some_other_pkg</span><span class="p">):</span>
     <span class="o">...</span>
@@ -180,7 +191,7 @@ following is suggested:</p>
 </div>
 </div>
 <div class="section" id="id3">
-<h4><a class="toc-backref" href="#id16">Repo initialization</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id18">Repo initialization</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>All instantiations of <tt class="docutils literal"><span class="pre">hawkey.Repo</span></tt> now must be given the name of the Repo. The
 following will now fail:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Repo</span><span class="p">()</span>
@@ -189,6 +200,26 @@ following will now fail:</p>
 </div>
 <p>Use this instead:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="s">&quot;fedora&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h4><a class="toc-backref" href="#id19">Query installs obsoleted</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>See <a class="reference internal" href="#changes-query-installs"><em>Query installs obsoleted</em></a> in the C section. In Python Queries will no
+longer work as goal target specifiers, the following will fail:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span>
+<span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;gimp&quot;</span><span class="p">)</span>
+<span class="n">goal</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Instead use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sltr</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Selector</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span>
+<span class="n">sltr</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;gimp&quot;</span><span class="p">)</span>
+<span class="n">goal</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="n">sltr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or a convenience notation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">goal</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;gimp&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -213,16 +244,18 @@ following will now fail:</p>
 <li><a class="reference internal" href="#id1">Python bindings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-2-13">Changes in 0.2.13</a><ul>
+<li><a class="reference internal" href="#changes-in-0-3-0">Changes in 0.3.0</a><ul>
 <li><a class="reference internal" href="#core">Core</a><ul>
 <li><a class="reference internal" href="#query-key-for-reponame-filtering">Query: key for reponame filtering</a></li>
 <li><a class="reference internal" href="#repo-initialization">Repo initialization</a></li>
+<li><a class="reference internal" href="#query-installs-obsoleted">Query installs obsoleted</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id2">Python bindings</a><ul>
 <li><a class="reference internal" href="#query-filtering-by-repository-with-the-reponame-key">Query: filtering by repository with the reponame key</a></li>
 <li><a class="reference internal" href="#package-removed-methods-for-direct-evr-comparison">Package: removed methods for direct EVR comparison</a></li>
 <li><a class="reference internal" href="#id3">Repo initialization</a></li>
+<li><a class="reference internal" href="#id4">Query installs obsoleted</a></li>
 </ul>
 </li>
 </ul>
