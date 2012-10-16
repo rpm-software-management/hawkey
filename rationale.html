@@ -1,0 +1,145 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Design Rationale &mdash; Hawkey 0.2.12-1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.12-1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Hawkey 0.2.12-1 documentation" href="index.html" />
+    <link rel="prev" title="python-hawkey Reference Manual" href="reference-py.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="reference-py.html" title="python-hawkey Reference Manual"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Hawkey 0.2.12-1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="design-rationale">
+<h1>Design Rationale<a class="headerlink" href="#design-rationale" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="selectors-are-not-queries">
+<span id="rationale-selectors"></span><h2>Selectors are not Queries<a class="headerlink" href="#selectors-are-not-queries" title="Permalink to this headline">¶</a></h2>
+<p>Since both a Query and a Selector work to limit the set of all Sack&#8217;s packages
+to a subset, it can be suggested the two concepts should be the same and
+e.g. Queries should be used for Goal specifications instead of Selectors:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="c1">// create sack, goal, ...</span>
+<span class="n">HyQuery</span> <span class="n">q</span> <span class="o">=</span> <span class="n">hy_query_create</span><span class="p">(</span><span class="n">sack</span><span class="p">);</span>
+<span class="n">hy_query_filter</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">HY_PKG_NAME</span><span class="p">,</span> <span class="n">HY_EQ</span><span class="p">,</span> <span class="s">&quot;anaconda&quot;</span><span class="p">)</span>
+<span class="n">hy_goal_install_query</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This arrangment was in fact used in hawkey prior to version 0.3.0, just because
+Queries looked like a convenient structure to hold this kind of information. It
+was unfortunately confusing for the programmers: notice how evaluating the Query
+<tt class="docutils literal"><span class="pre">q</span></tt> would generally produce several packages (<tt class="docutils literal"><span class="pre">anaconda</span></tt> for different
+architectures and then different versions) but somehow when the same Query is
+passed into the goal methods it always results in up to one pacakge selected for
+the operation. This is a principal discrepancy. Further, Query is universal and
+allows one to limit the package set with all sorts of criteria, matched in
+different ways (substrings, globbing, set operation) while Selectors only
+support few. Finally, while a fresh Query with no filters applied corresponds to
+all packages of the Sack, a fresh Selector with no limits set is of no meaning.</p>
+<p>An alternative to introducing a completely different concept was adding a
+separate constructor function for Query, one that would from the start designate
+the Query to only accept settings compatible with its purpose of becoming the
+selecting element in a Goal operation (in Python this would probably be
+implemented as a subclass of Query). But that would break client&#8217;s assumptions
+about Query (<a class="reference external" href="http://www.parashift.com/c++-faq/circle-ellipse.html">the unofficial C++ FAQ</a> takes up the topic).</p>
+<p><em>Implementation note</em>: Selectors reflect the kind of specifications that can be
+directly translated into Libsolv jobs, without actually searching for a concrete
+package to put there. In other words, Selectors are specifically designed not to
+ever iterate over the package data like Queries do. While Hawkey mostly aims to
+hide any twists and complexities of the underlying library, in this case the
+combined reasons warrant a concession.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Design Rationale</a><ul>
+<li><a class="reference internal" href="#selectors-are-not-queries">Selectors are not Queries</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="reference-py.html"
+                        title="previous chapter">python-hawkey Reference Manual</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/rationale.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="reference-py.html" title="python-hawkey Reference Manual"
+             >previous</a> |</li>
+        <li><a href="index.html">Hawkey 0.2.12-1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Red Hat.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
