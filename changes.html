@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API Changes &mdash; Hawkey 0.3.0-1 documentation</title>
+    <title>API Changes &mdash; Hawkey 0.3.1-1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.3.0-1',
+        VERSION:     '0.3.1-1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Hawkey 0.3.0-1 documentation" href="index.html" />
+    <link rel="top" title="Hawkey 0.3.1-1 documentation" href="index.html" />
     <link rel="next" title="FAQ" href="faq.html" />
     <link rel="prev" title="Hawkey, the libsolv API Simplified" href="index.html" /> 
   </head>
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="index.html" title="Hawkey, the libsolv API Simplified"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.3.0-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.3.1-1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -79,6 +79,15 @@
 <li><a class="reference internal" href="#id4" id="id19">Query installs obsoleted</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-3-1" id="id20">Changes in 0.3.1</a><ul>
+<li><a class="reference internal" href="#query-hy-query-filter-package-in-takes-a-new-parameter" id="id21">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> takes a new parameter</a></li>
+<li><a class="reference internal" href="#removed-hy-query-filter-obsoleting" id="id22">Removed <tt class="docutils literal"><span class="pre">hy_query_filter_obsoleting()</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-3-2" id="id23">Changes in 0.3.2</a><ul>
+<li><a class="reference internal" href="#removed-hy-packagelist-of-obsoletes" id="id24">Removed <tt class="docutils literal"><span class="pre">hy_packagelist_of_obsoletes</span></tt>.</a></li>
 </ul>
 </li>
 </ul>
@@ -225,6 +234,44 @@ longer work as goal target specifiers, the following will fail:</p>
 </div>
 </div>
 </div>
+<div class="section" id="changes-in-0-3-1">
+<h2><a class="toc-backref" href="#id20">Changes in 0.3.1</a><a class="headerlink" href="#changes-in-0-3-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="query-hy-query-filter-package-in-takes-a-new-parameter">
+<h3><a class="toc-backref" href="#id21">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> takes a new parameter</a><a class="headerlink" href="#query-hy-query-filter-package-in-takes-a-new-parameter" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">keyname</span></tt> parameter was added to the function signature. The new parameter
+allows filtering by a specific relation to the resulting packages, for
+instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">hy_query_filter_package_in</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">HY_PKG_OBSOLETES</span><span class="p">,</span> <span class="n">HY_EQ</span><span class="p">,</span> <span class="n">pset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>only leaves the pacakges obsoleting a package in <tt class="docutils literal"><span class="pre">pset</span></tt> a part of the result.</p>
+</div>
+<div class="section" id="removed-hy-query-filter-obsoleting">
+<h3><a class="toc-backref" href="#id22">Removed <tt class="docutils literal"><span class="pre">hy_query_filter_obsoleting()</span></tt></a><a class="headerlink" href="#removed-hy-query-filter-obsoleting" title="Permalink to this headline">¶</a></h3>
+<p>The new version of <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> handles this now, see above.</p>
+<p>In Python, the following is no longer supported:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">obsoleting</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The equivalent new syntax is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">installed</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">reponame</span><span class="o">=</span><span class="n">SYSTEM_REPO_NAME</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">obsoletes</span><span class="o">=</span><span class="n">installed</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="changes-in-0-3-2">
+<h2><a class="toc-backref" href="#id23">Changes in 0.3.2</a><a class="headerlink" href="#changes-in-0-3-2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="removed-hy-packagelist-of-obsoletes">
+<h3><a class="toc-backref" href="#id24">Removed <tt class="docutils literal"><span class="pre">hy_packagelist_of_obsoletes</span></tt>.</a><a class="headerlink" href="#removed-hy-packagelist-of-obsoletes" title="Permalink to this headline">¶</a></h3>
+<p>The function was not systematic. Same result is achieved by obtaining obsoleting
+reldeps from a package and then trying to find the installed packages that
+provide it. In Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">reponame</span><span class="o">=</span><span class="n">SYSTEM_REPO_NAME</span><span class="p">,</span> <span class="n">provides</span><span class="o">=</span><span class="n">pkg</span><span class="o">.</span><span class="n">obsoletes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -258,6 +305,15 @@ longer work as goal target specifiers, the following will fail:</p>
 <li><a class="reference internal" href="#id4">Query installs obsoleted</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-3-1">Changes in 0.3.1</a><ul>
+<li><a class="reference internal" href="#query-hy-query-filter-package-in-takes-a-new-parameter">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> takes a new parameter</a></li>
+<li><a class="reference internal" href="#removed-hy-query-filter-obsoleting">Removed <tt class="docutils literal"><span class="pre">hy_query_filter_obsoleting()</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-3-2">Changes in 0.3.2</a><ul>
+<li><a class="reference internal" href="#removed-hy-packagelist-of-obsoletes">Removed <tt class="docutils literal"><span class="pre">hy_packagelist_of_obsoletes</span></tt>.</a></li>
 </ul>
 </li>
 </ul>
@@ -304,7 +360,7 @@ longer work as goal target specifiers, the following will fail:</p>
         <li class="right" >
           <a href="index.html" title="Hawkey, the libsolv API Simplified"
              >previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.3.0-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.3.1-1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

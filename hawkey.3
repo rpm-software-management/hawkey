@@ -1,4 +1,4 @@
-.TH "HAWKEY" "3" "October 16, 2012" "0.2.12" "Hawkey"
+.TH "HAWKEY" "3" "November 08, 2012" "0.3.1" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -75,6 +75,20 @@ Contents:
 .IP \(bu 2
 \fI\%Query installs obsoleted\fP
 .UNINDENT
+.UNINDENT
+.IP \(bu 2
+\fI\%Changes in 0.3.1\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Query: hy_query_filter_package_in() takes a new parameter\fP
+.IP \(bu 2
+\fI\%Removed hy_query_filter_obsoleting()\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Changes in 0.3.2\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Removed hy_packagelist_of_obsoletes.\fP
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -248,6 +262,52 @@ Or a convenience notation:
 .nf
 .ft C
 goal.install(name="gimp")
+.ft P
+.fi
+.SS Changes in 0.3.1
+.SS Query: \fBhy_query_filter_package_in()\fP takes a new parameter
+.sp
+\fBkeyname\fP parameter was added to the function signature. The new parameter
+allows filtering by a specific relation to the resulting packages, for
+instance:
+.sp
+.nf
+.ft C
+hy_query_filter_package_in(q, HY_PKG_OBSOLETES, HY_EQ, pset)
+.ft P
+.fi
+.sp
+only leaves the pacakges obsoleting a package in \fBpset\fP a part of the result.
+.SS Removed \fBhy_query_filter_obsoleting()\fP
+.sp
+The new version of \fBhy_query_filter_package_in()\fP handles this now, see above.
+.sp
+In Python, the following is no longer supported:
+.sp
+.nf
+.ft C
+q = query.filter(obsoleting=1)
+.ft P
+.fi
+.sp
+The equivalent new syntax is:
+.sp
+.nf
+.ft C
+installed = hawkey.Query(sack).filter(reponame=SYSTEM_REPO_NAME)
+q = query.filter(obsoletes=installed)
+.ft P
+.fi
+.SS Changes in 0.3.2
+.SS Removed \fBhy_packagelist_of_obsoletes\fP.
+.sp
+The function was not systematic. Same result is achieved by obtaining obsoleting
+reldeps from a package and then trying to find the installed packages that
+provide it. In Python:
+.sp
+.nf
+.ft C
+q = hawkey.Query(sack).filter(reponame=SYSTEM_REPO_NAME, provides=pkg.obsoletes)
 .ft P
 .fi
 .SH FAQ
@@ -669,7 +729,7 @@ just use the method describe above:
 .UNINDENT
 .SS Error handling
 .sp
-When an error or an unexpected event occurs during a hawkey routine, an
+When an error or an unexpected event occurs during a Hawkey routine, an
 exception is raised:
 .INDENT 0.0
 .IP \(bu 2
@@ -677,9 +737,13 @@ if it is a general error that could be common to other Python programs, one of
 the standard Python built\-in exceptions is raised. For instance, \fBIOError\fP
 and \fBTypeError\fP can be raised from Hawkey.
 .IP \(bu 2
-if the error is due to a Hawkey\-specific value/parameter that was passed,
+programming errors within Hawkey that cause unexpected or invalid states raise
+the standard \fBAssertionError\fP. These should be reported as bugs against
+Hawkey.
+.IP \(bu 2
+programming errors due to incorrect use of the library usually produce
 \fBhawkey.ValueException\fP or one of its subclasses, \fBQueryException\fP (poorly
-formed Query) or \fBArchException\fP (unrecognized architecture), is used.
+formed Query) or \fBArchException\fP (unrecognized architecture).
 .IP \(bu 2
 sometimes there is a close call between blaming the error on an input
 parameter or on something else, beyond the programmer\(aqs
@@ -740,9 +804,9 @@ about Query (\fI\%the unofficial C++ FAQ\fP takes up the topic).
 \fIImplementation note\fP: Selectors reflect the kind of specifications that can be
 directly translated into Libsolv jobs, without actually searching for a concrete
 package to put there. In other words, Selectors are specifically designed not to
-ever iterate over the package data like Queries do. While Hawkey mostly aims to
-hide any twists and complexities of the underlying library, in this case the
-combined reasons warrant a concession.
+iterate over the package data (with exceptions, like glob matching) like Queries
+do. While Hawkey mostly aims to hide any twists and complexities of the
+underlying library, in this case the combined reasons warrant a concession.
 .sp
 Indices and tables
 .INDENT 0.0
