@@ -1,4 +1,4 @@
-.TH "HAWKEY" "3" "November 08, 2012" "0.3.1" "Hawkey"
+.TH "HAWKEY" "3" "November 26, 2012" "0.3.3" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -89,6 +89,22 @@ Contents:
 .INDENT 2.0
 .IP \(bu 2
 \fI\%Removed hy_packagelist_of_obsoletes.\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Changes in 0.3.3\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Renamed hy_package_get_nvra to hy_package_get_nevra\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Changes in 0.3.4\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Python bindings\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%pkg.__repr__() is more verbose now\fP
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -310,6 +326,22 @@ provide it. In Python:
 q = hawkey.Query(sack).filter(reponame=SYSTEM_REPO_NAME, provides=pkg.obsoletes)
 .ft P
 .fi
+.SS Changes in 0.3.3
+.SS Renamed \fBhy_package_get_nvra\fP to \fBhy_package_get_nevra\fP
+.sp
+The old name was by error, the functionality has not changed: this function has
+always returned the full NEVRA, skipping the epoch part when it\(aqs 0.
+.SS Changes in 0.3.4
+.SS Python bindings
+.SS \fBpkg.__repr__()\fP is more verbose now
+.sp
+Previously, \fBrepr(pkg)\fP would yield for instance \fB<_hawkey.Package object,
+id: 5>\fP. Now more complete information is present, including the package\(aqs
+NEVRA and repository: \fB<hawkey.Package object id 5, foo\-2\-9\e.noarch,
+@System>\fP.
+.sp
+Also notice that the representation now mentions the final \fBhawkey.Package\fP
+type, not \fB_hawkey.Package\fP. Note that these are currently the same.
 .SH FAQ
 .SS Contents
 .INDENT 0.0
