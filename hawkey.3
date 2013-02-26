@@ -1,4 +1,4 @@
-.TH "HAWKEY" "3" "February 13, 2013" "0.3.7" "Hawkey"
+.TH "HAWKEY" "3" "February 26, 2013" "0.3.7" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -109,6 +109,12 @@ Contents:
 .IP \(bu 2
 \fI\%Changes in 0.3.8\fP
 .INDENT 2.0
+.IP \(bu 2
+\fI\%Core\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%New parameter rootdir to hy_sack_create()\fP
+.UNINDENT
 .IP \(bu 2
 \fI\%Python bindings\fP
 .INDENT 2.0
@@ -353,6 +359,27 @@ NEVRA and repository: \fB<hawkey.Package object id 5, foo\-2\-9\e.noarch,
 Also notice that the representation now mentions the final \fBhawkey.Package\fP
 type, not \fB_hawkey.Package\fP. Note that these are currently the same.
 .SS Changes in 0.3.8
+.SS Core
+.SS New parameter \fBrootdir\fP to \fBhy_sack_create()\fP
+.sp
+\fBhy_sack_create()\fP now accepts third argument, \fBrootdir\fP. This can be used
+to tell Hawkey that we are intending to do transactions in a changeroot, not in
+the current root. It effectively makes use of the RPM database found under
+\fBrootdir\fP. To make your code compile in 0.3.8 without changing functionality, change:
+.sp
+.nf
+.ft C
+HySack sack = hy_sack_create(cachedir, arch);
+.ft P
+.fi
+.sp
+to:
+.sp
+.nf
+.ft C
+HySack sack = hy_sack_create(cachedir, arch, NULL);
+.ft P
+.fi
 .SS Python bindings
 .SS Forms recognized by \fBSubject\fP are no longer an instance\-scope setting
 .sp
