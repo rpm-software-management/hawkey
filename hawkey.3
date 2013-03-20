@@ -1,4 +1,4 @@
-.TH "HAWKEY" "3" "February 26, 2013" "0.3.7" "Hawkey"
+.TH "HAWKEY" "3" "March 20, 2013" "0.3.8" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -120,6 +120,26 @@ Contents:
 .INDENT 2.0
 .IP \(bu 2
 \fI\%Forms recognized by Subject are no longer an instance-scope setting\fP
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+\fI\%Changes in 0.3.9\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Core\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Flags for hy_sack_create\fP
+.IP \(bu 2
+\fI\%hy_sack_get_cache_path is renamed to hy_sack_get_cache_dir\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%Python bindings\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%make_cache_dir for Sack's constructor\fP
+.IP \(bu 2
+\fI\%cache_path property of Sack renamed to cache_dir\fP
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -404,6 +424,55 @@ subj = hawkey.Subject("input")
 result = list(subj.nevra_possibilities(form=hawkey.FORM_NEVRA))
 .ft P
 .fi
+.SS Changes in 0.3.9
+.SS Core
+.SS Flags for \fBhy_sack_create\fP
+.sp
+\fBhy_sack_create()\fP now accepts fourth argument, \fBflags\fP, introduced to
+modify the sack behavior with boolean flags. Currently only one flag is
+supported, \fBHY_MAKE_CACHE_DIR\fP, which causes the cache directory to be created
+if it doesn\(aqt exist yet. To preserve the previous behavior, change the
+following:
+.sp
+.nf
+.ft C
+HySack sack = hy_sack_create(cachedir, arch, rootdir);
+.ft P
+.fi
+.sp
+into:
+.sp
+.nf
+.ft C
+HySack sack = hy_sack_create(cachedir, arch, rootdir, HY_MAKE_CACHE_DIR);
+.ft P
+.fi
+.SS \fBhy_sack_get_cache_path\fP is renamed to \fBhy_sack_get_cache_dir\fP
+.sp
+Update your code by mechanically replacing the name.
+.SS Python bindings
+.SS \fBmake_cache_dir\fP for Sack\(aqs constructor
+.sp
+A new sack by default no longer automatically creates the cache directory. To
+get the old behavior, append \fBmake_cache_dir=True\fP to the Sack\(aqs constructor
+arguments, that is change the following:
+.sp
+.nf
+.ft C
+sack = hawkey.Sack(...)
+.ft P
+.fi
+.sp
+to:
+.sp
+.nf
+.ft C
+sack = hawkey.Sack(..., make_cache_dir=True)
+.ft P
+.fi
+.SS \fBcache_path\fP property of \fBSack\fP renamed to \fBcache_dir\fP
+.sp
+Reflects the similar change in C API.
 .SH FAQ
 .SS Contents
 .INDENT 0.0
