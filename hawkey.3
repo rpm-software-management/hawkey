@@ -1,4 +1,4 @@
-.TH "HAWKEY" "3" "March 20, 2013" "0.3.8" "Hawkey"
+.TH "HAWKEY" "3" "April 18, 2013" "0.3.10" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -551,7 +551,7 @@ from other parts of package metadata managing.
 \fI\%Resolving things with Goals\fP
 .INDENT 2.0
 .IP \(bu 2
-\fI\%Query Installs\fP
+\fI\%Selector Installs\fP
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -593,8 +593,9 @@ system repo\fP (in Fedora it is the RPM database). To load it:
 .ft P
 .fi
 .sp
-Hawkey always knows the name of every repository. Repositories loaded from Yum
-are named by the user, the system repostiroy is always called \fB@System\fP.
+Hawkey always knows the name of every repository. Names of repositories loaded
+from Yum metadata are chosen by the client and the system repostiroy is always
+called \fB@System\fP.
 .SS Loading Yum Repositories
 .sp
 Let\(aqs be honest here: all the fun in packaging comes from packages you haven\(aqt
@@ -610,8 +611,7 @@ files. Structures used for passing the information to hawkey are the hawkey
 .nf
 .ft C
 >>> path = "/home/akozumpl/tmp/repodata/%s"
->>> repo = hawkey.Repo()
->>> repo.name = "experimental"
+>>> repo = hawkey.Repo("experimental")
 >>> repo.repomd_fn = path % "repomd.xml"
 >>> repo.primary_fn = path % "f7753a2636cc89d70e8aaa1f3c08413ab78462ca9f48fd55daf6dedf9ab0d5db\-primary.xml.gz"
 >>> repo.filelists_fn = path % "0261e25e8411f4f5e930a70fa249b8afd5e86bb9087d7739b55be64b76d8a7f6\-filelists.xml.gz"
@@ -669,6 +669,7 @@ every time your hawkey program is run). To do that use \fBbuild_cache=True\fP wi
 .sp
 .nf
 .ft C
+>>> sack = hawkey.Sack(make_cache_dir=True)
 >>> sack.load_system_repo(build_cache=True)
 .ft P
 .fi
@@ -712,9 +713,7 @@ with \fBgtk\fP:
 .sp
 .nf
 .ft C
->>> q = hawkey.Query(sack)
->>> q.filter(repo=hawkey.SYSTEM_REPO_NAME, name__glob=\(aq*gtk\(aq)
-<hawkey.Query object at 0x7fa477e73320>
+>>> q = hawkey.Query(sack).filter(reponame=hawkey.SYSTEM_REPO_NAME, name__glob=\(aq*gtk\(aq)
 >>> for pkg in q:
 \&...     print str(pkg)
 \&...
@@ -737,8 +736,7 @@ Or I want to find the latest version of all \fBpython\fP packages the Sack knows
 .nf
 .ft C
 >>> q.clear()
->>> q.filter(name=\(aqpython\(aq, latest=True)
-<hawkey.Query object at 0x7fa477e73460>
+>>> q = q.filter(name=\(aqpython\(aq, latest=True)
 >>> for pkg in q:
 \&...     print str(pkg)
 \&...
@@ -773,7 +771,7 @@ truth and when it is explicitly evaluated with \fBq.run()\fP.
 .RE
 .SS Resolving things with Goals
 .sp
-Many \fBSack\fP sessions culminate in bout of dependency resolving, that is
+Many \fBSack\fP sessions culminate in a bout of dependency resolving, that is
 answering a question along the lines of "I have a package X in a repository
 here, what other packages do I need to install/update to have X installed and
 all its dependencies recursively satisfied?" Suppose we want to install \fI\%the RTS
@@ -830,15 +828,17 @@ So what does it tell us? That given the state of the given system and the given
 repository we used, 8 packages need to be installed,
 \fBspring\-88.0\-2.fc17.x86_64\fP itself included. No packages need to be upgraded
 or erased.
-.SS Query Installs
+.SS Selector Installs
 .sp
-For certain very simple queries we can do installs directly without ever executing them:
+For certain simple and commonly used queries we can do installs
+directly. Instead of executing a query however we instantiate and pass the
+\fBGoal.install()\fP method a \fBSelector\fP:
 .sp
 .nf
 .ft C
 >>> g = hawkey.Goal(sack)
->>> q = hawkey.Query(sack).filter(name=\(aqspring\(aq)
->>> g.install(query=q)
+>>> sltr = hawkey.Selector(sack).set(name=\(aqemacs\-nox\(aq)
+>>> g.install(select=sltr)
 >>> g.run()
 True
 >>> map(str, g.list_installs())
@@ -850,30 +850,17 @@ True
 .ft P
 .fi
 .sp
-Notice we arrived at the same result as before, when the query got iterated
-first. When a \fBQuery\fP is passed directly to \fBGoal.install()\fP hawkey
-examines the query and without running it instructs libsolv to find \fIthe best
-matching package\fP for it and add that for installation. It saves user some
-deicsions like which version should be installed or what architecture (this gets
-very relevant with multiarch libraries).
+Notice we arrived at the same result as before, when a query was constructed and
+iterated first. What \fBSelector\fP does when passed to \fBGoal.install()\fP
+is tell hawkey to examine its settings and without evaluating it as a
+\fBQuery\fP it instructs libsolv to find \fIthe best matching package\fP for it
+and add that for installation. It saves user some deicsions like which version
+should be installed or what architecture (this gets very relevant with multiarch
+libraries).
 .sp
-Think about the queries in this context more as \fIspecifiers\fP and less as \fIchain
-of filters\fP. Not all kinds of Query filters can used for Goal as when searching
-for a package. In fact in this context, currently only \fBname\fP and \fBarch\fP
-filters are recognized, the others raise an error:
-.sp
-.nf
-.ft C
->>> goal = hawkey.Goal(sack)
->>> goal.install(query=hawkey.Query(sack).filter(name=\(aqspring\(aq, repo=\(aqfedora\(aq))
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-_hawkey.QueryException: Query unsupported in this context.
-.ft P
-.fi
-.sp
-If you mean to install \fIall packages\fP matching an arbitrarily complex query,
-just use the method describe above:
+So Selectors usually only install a single package. If you mean to install \fIall
+packages\fP matching an arbitrarily complex query, just use the method describe
+above:
 .sp
 .nf
 .ft C
