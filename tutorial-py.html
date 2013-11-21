@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>python-hawkey Tutorial &mdash; Hawkey 0.4.0-1 documentation</title>
+    <title>python-hawkey Tutorial &mdash; Hawkey 0.4.5-1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.4.0-1',
+        VERSION:     '0.4.5-1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Hawkey 0.4.0-1 documentation" href="index.html" />
+    <link rel="top" title="Hawkey 0.4.5-1 documentation" href="index.html" />
     <link rel="next" title="python-hawkey Reference Manual" href="reference-py.html" />
     <link rel="prev" title="FAQ" href="faq.html" /> 
   </head>
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="faq.html" title="FAQ"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.4.0-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.4.5-1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -102,7 +102,7 @@ system repo</em> (in Fedora it is the RPM database). To load it:</p>
 </pre></div>
 </div>
 <p>Hawkey always knows the name of every repository. Names of repositories loaded
-from Yum metadata are chosen by the client and the system repostiroy is always
+from Yum metadata are chosen by the client and the system repository is always
 called <tt class="docutils literal"><span class="pre">&#64;System</span></tt>.</p>
 </div>
 <div class="section" id="loading-yum-repositories">
@@ -218,7 +218,7 @@ with <tt class="docutils literal"><span class="pre">gtk</span></tt>:</p>
 </div>
 <p>Or I want to find the latest version of all <tt class="docutils literal"><span class="pre">python</span></tt> packages the Sack knows of:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;python&#39;</span><span class="p">,</span> <span class="n">latest</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;python&#39;</span><span class="p">,</span> <span class="n">latest_per_arch</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">q</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -257,8 +257,8 @@ here, what other packages do I need to install/update to have X installed and
 all its dependencies recursively satisfied?&#8221; Suppose we want to install <a class="reference external" href="http://springrts.com/">the RTS
 game Spring</a>. First let&#8217;s locate the latest version of
 the package in repositories:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;spring&#39;</span><span class="p">,</span> <span class="n">latest</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pkg</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;spring&#39;</span><span class="p">,</span> <span class="n">latest</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;spring&#39;</span><span class="p">,</span> <span class="n">latest_per_arch</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pkg</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;spring&#39;</span><span class="p">,</span> <span class="n">latest_per_arch</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span>
 <span class="go">&#39;spring-88.0-2.fc17.x86_64&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pkg</span><span class="o">.</span><span class="n">reponame</span>
@@ -394,7 +394,7 @@ above:</p>
         <li class="right" >
           <a href="faq.html" title="FAQ"
              >previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.4.0-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.4.5-1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
