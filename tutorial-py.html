@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>python-hawkey Tutorial &mdash; Hawkey 0.4.5-1 documentation</title>
+    <title>python-hawkey Tutorial &mdash; Hawkey 0.4.14-1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.4.5-1',
+        VERSION:     '0.4.14-1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Hawkey 0.4.5-1 documentation" href="index.html" />
+    <link rel="top" title="Hawkey 0.4.14-1 documentation" href="index.html" />
     <link rel="next" title="python-hawkey Reference Manual" href="reference-py.html" />
     <link rel="prev" title="FAQ" href="faq.html" /> 
   </head>
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="faq.html" title="FAQ"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.4.5-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.4.14-1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -277,7 +277,7 @@ goal:</p>
 <p><tt class="docutils literal"><span class="pre">True</span></tt> as a return value here indicates that libsolv could find a solution to
 our goal. This is not always the case, there are plenty of situations when there
 is no solution, the most common one being a package should be installed but one
-of its dependnecies is missing from the sack.</p>
+of its dependencies is missing from the sack.</p>
 <p>The three methods <tt class="xref py py-meth docutils literal"><span class="pre">Goal.list_installs()</span></tt>, <tt class="xref py py-meth docutils literal"><span class="pre">Goal.list_upgrades()</span></tt> and
 <tt class="xref py py-meth docutils literal"><span class="pre">Goal.list_erasures()</span></tt> can show which packages should be
 installed/upgraded/erased to satisfy the packaging goal we set out to achieve
@@ -317,7 +317,7 @@ directly. Instead of executing a query however we instantiate and pass the
 iterated first. What <tt class="xref py py-class docutils literal"><span class="pre">Selector</span></tt> does when passed to <tt class="xref py py-meth docutils literal"><span class="pre">Goal.install()</span></tt>
 is tell hawkey to examine its settings and without evaluating it as a
 <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt> it instructs libsolv to find <em>the best matching package</em> for it
-and add that for installation. It saves user some deicsions like which version
+and add that for installation. It saves user some decisions like which version
 should be installed or what architecture (this gets very relevant with multiarch
 libraries).</p>
 <p>So Selectors usually only install a single package. If you mean to install <em>all
@@ -394,7 +394,7 @@ above:</p>
         <li class="right" >
           <a href="faq.html" title="FAQ"
              >previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.4.5-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.4.14-1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
