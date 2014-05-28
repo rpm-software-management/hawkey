@@ -1,3 +1,20 @@
+..
+  Copyright (C) 2014  Red Hat, Inc.
+
+  This copyrighted material is made available to anyone wishing to use,
+  modify, copy, or redistribute it subject to the terms and conditions of
+  the GNU General Public License v.2, or (at your option) any later version.
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY expressed or implied, including the implied warranties of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+  Public License for more details.  You should have received a copy of the
+  GNU General Public License along with this program; if not, write to the
+  Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+  02110-1301, USA.  Any Red Hat trademarks that are incorporated in the
+  source code or documentation are not subject to the GNU General Public
+  License and may only be used or replicated with the express permission of
+  Red Hat, Inc.
+
 *************
  API Changes
 *************
@@ -400,3 +417,35 @@ Thus enum ``HyUpdateSeverity`` was also deprecated. A new ``HyAdvisoryType``
 should be used instead.
 
 The old functions will be dropped after 2014-07-07.
+
+Changes in 0.4.15
+=================
+
+.. _0_4_15_core-label:
+
+Core
+----
+
+``hy_goal_write_debugdata()`` takes a directory parameter
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``hy_goal_write_debugdata()`` has a new `const char *dir` argument to communicate the target directory for the debugging data. The old call::
+
+    hy_goal_write_debugdata(goal);
+
+should be changed to achieve the same behavior to::
+
+    hy_goal_write_debugdata(goal, "./debugdata");
+
+Python bindings
+---------------
+
+``Goal.write_debugdata()`` takes a directory parameter
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Analogus to :ref:`core changes <0_4_15_core-label>`.
+
+Package: string attributes are represented by Unicode object
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Attributes ``baseurl``, ``location``, ``sourcerpm``, ``version``, ``release``, ``name``, ``arch``, ``description``, ``evr``, ``license``, ``packager``, ``reponame``, ``summary`` and ``url`` of Package object return Unicode string.
