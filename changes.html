@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API Changes &mdash; Hawkey 0.4.17-1 documentation</title>
+    <title>API Changes &mdash; Hawkey 0.4.18-1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.4.17-1',
+        VERSION:     '0.4.18-1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Hawkey 0.4.17-1 documentation" href="index.html" />
+    <link rel="top" title="Hawkey 0.4.18-1 documentation" href="index.html" />
     <link rel="next" title="FAQ" href="faq.html" />
     <link rel="prev" title="Hawkey, the libsolv API Simplified" href="index.html" /> 
   </head>
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="index.html" title="Hawkey, the libsolv API Simplified"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.4.17-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.4.18-1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -52,111 +52,123 @@
           <div class="body">
             
   <div class="section" id="api-changes">
-<h1><a class="toc-backref" href="#id18">API Changes</a><a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id20">API Changes</a><a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#api-changes" id="id18">API Changes</a><ul>
-<li><a class="reference internal" href="#changes-in-0-2-10" id="id19">Changes in 0.2.10</a><ul>
-<li><a class="reference internal" href="#python-bindings" id="id20">Python bindings</a></li>
+<li><a class="reference internal" href="#api-changes" id="id20">API Changes</a><ul>
+<li><a class="reference internal" href="#changes-in-0-2-10" id="id21">Changes in 0.2.10</a><ul>
+<li><a class="reference internal" href="#python-bindings" id="id22">Python bindings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-2-11" id="id21">Changes in 0.2.11</a><ul>
-<li><a class="reference internal" href="#id1" id="id22">Python bindings</a></li>
+<li><a class="reference internal" href="#changes-in-0-2-11" id="id23">Changes in 0.2.11</a><ul>
+<li><a class="reference internal" href="#id1" id="id24">Python bindings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-3-0" id="id23">Changes in 0.3.0</a><ul>
-<li><a class="reference internal" href="#core" id="id24">Core</a><ul>
-<li><a class="reference internal" href="#query-key-for-reponame-filtering" id="id25">Query: key for reponame filtering</a></li>
-<li><a class="reference internal" href="#repo-initialization" id="id26">Repo initialization</a></li>
-<li><a class="reference internal" href="#query-installs-obsoleted" id="id27">Query installs obsoleted</a></li>
+<li><a class="reference internal" href="#changes-in-0-3-0" id="id25">Changes in 0.3.0</a><ul>
+<li><a class="reference internal" href="#core" id="id26">Core</a><ul>
+<li><a class="reference internal" href="#query-key-for-reponame-filtering" id="id27">Query: key for reponame filtering</a></li>
+<li><a class="reference internal" href="#repo-initialization" id="id28">Repo initialization</a></li>
+<li><a class="reference internal" href="#query-installs-obsoleted" id="id29">Query installs obsoleted</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id2" id="id28">Python bindings</a><ul>
-<li><a class="reference internal" href="#query-filtering-by-repository-with-the-reponame-key" id="id29">Query: filtering by repository with the reponame key</a></li>
-<li><a class="reference internal" href="#package-removed-methods-for-direct-evr-comparison" id="id30">Package: removed methods for direct EVR comparison</a></li>
-<li><a class="reference internal" href="#id3" id="id31">Repo initialization</a></li>
-<li><a class="reference internal" href="#id4" id="id32">Query installs obsoleted</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes-in-0-3-1" id="id33">Changes in 0.3.1</a><ul>
-<li><a class="reference internal" href="#query-hy-query-filter-package-in-takes-a-new-parameter" id="id34">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> takes a new parameter</a></li>
-<li><a class="reference internal" href="#removed-hy-query-filter-obsoleting" id="id35">Removed <tt class="docutils literal"><span class="pre">hy_query_filter_obsoleting()</span></tt></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes-in-0-3-2" id="id36">Changes in 0.3.2</a><ul>
-<li><a class="reference internal" href="#removed-hy-packagelist-of-obsoletes" id="id37">Removed <tt class="docutils literal"><span class="pre">hy_packagelist_of_obsoletes</span></tt>.</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes-in-0-3-3" id="id38">Changes in 0.3.3</a><ul>
-<li><a class="reference internal" href="#renamed-hy-package-get-nvra-to-hy-package-get-nevra" id="id39">Renamed <tt class="docutils literal"><span class="pre">hy_package_get_nvra</span></tt> to <tt class="docutils literal"><span class="pre">hy_package_get_nevra</span></tt></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes-in-0-3-4" id="id40">Changes in 0.3.4</a><ul>
-<li><a class="reference internal" href="#id5" id="id41">Python bindings</a><ul>
-<li><a class="reference internal" href="#pkg-repr-is-more-verbose-now" id="id42"><tt class="docutils literal"><span class="pre">pkg.__repr__()</span></tt> is more verbose now</a></li>
+<li><a class="reference internal" href="#id2" id="id30">Python bindings</a><ul>
+<li><a class="reference internal" href="#query-filtering-by-repository-with-the-reponame-key" id="id31">Query: filtering by repository with the reponame key</a></li>
+<li><a class="reference internal" href="#package-removed-methods-for-direct-evr-comparison" id="id32">Package: removed methods for direct EVR comparison</a></li>
+<li><a class="reference internal" href="#id3" id="id33">Repo initialization</a></li>
+<li><a class="reference internal" href="#id4" id="id34">Query installs obsoleted</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-3-8" id="id43">Changes in 0.3.8</a><ul>
-<li><a class="reference internal" href="#id6" id="id44">Core</a><ul>
-<li><a class="reference internal" href="#new-parameter-rootdir-to-hy-sack-create" id="id45">New parameter <tt class="docutils literal"><span class="pre">rootdir</span></tt> to <tt class="docutils literal"><span class="pre">hy_sack_create()</span></tt></a></li>
+<li><a class="reference internal" href="#changes-in-0-3-1" id="id35">Changes in 0.3.1</a><ul>
+<li><a class="reference internal" href="#query-hy-query-filter-package-in-takes-a-new-parameter" id="id36">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> takes a new parameter</a></li>
+<li><a class="reference internal" href="#removed-hy-query-filter-obsoleting" id="id37">Removed <tt class="docutils literal"><span class="pre">hy_query_filter_obsoleting()</span></tt></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id7" id="id46">Python bindings</a><ul>
-<li><a class="reference internal" href="#forms-recognized-by-subject-are-no-longer-an-instance-scope-setting" id="id47">Forms recognized by <tt class="docutils literal"><span class="pre">Subject</span></tt> are no longer an instance-scope setting</a></li>
+<li><a class="reference internal" href="#changes-in-0-3-2" id="id38">Changes in 0.3.2</a><ul>
+<li><a class="reference internal" href="#removed-hy-packagelist-of-obsoletes" id="id39">Removed <tt class="docutils literal"><span class="pre">hy_packagelist_of_obsoletes</span></tt>.</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#changes-in-0-3-3" id="id40">Changes in 0.3.3</a><ul>
+<li><a class="reference internal" href="#renamed-hy-package-get-nvra-to-hy-package-get-nevra" id="id41">Renamed <tt class="docutils literal"><span class="pre">hy_package_get_nvra</span></tt> to <tt class="docutils literal"><span class="pre">hy_package_get_nevra</span></tt></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-3-9" id="id48">Changes in 0.3.9</a><ul>
-<li><a class="reference internal" href="#id8" id="id49">Core</a><ul>
-<li><a class="reference internal" href="#flags-for-hy-sack-create" id="id50">Flags for <tt class="docutils literal"><span class="pre">hy_sack_create</span></tt></a></li>
-<li><a class="reference internal" href="#hy-sack-get-cache-path-is-renamed-to-hy-sack-get-cache-dir" id="id51"><tt class="docutils literal"><span class="pre">hy_sack_get_cache_path</span></tt> is renamed to <tt class="docutils literal"><span class="pre">hy_sack_get_cache_dir</span></tt></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id9" id="id52">Python bindings</a><ul>
-<li><a class="reference internal" href="#make-cache-dir-for-sack-s-constructor" id="id53"><tt class="docutils literal"><span class="pre">make_cache_dir</span></tt> for Sack&#8217;s constructor</a></li>
-<li><a class="reference internal" href="#cache-path-property-of-sack-renamed-to-cache-dir" id="id54"><tt class="docutils literal"><span class="pre">cache_path</span></tt> property of <tt class="docutils literal"><span class="pre">Sack</span></tt> renamed to <tt class="docutils literal"><span class="pre">cache_dir</span></tt></a></li>
+<li><a class="reference internal" href="#changes-in-0-3-4" id="id42">Changes in 0.3.4</a><ul>
+<li><a class="reference internal" href="#id5" id="id43">Python bindings</a><ul>
+<li><a class="reference internal" href="#pkg-repr-is-more-verbose-now" id="id44"><tt class="docutils literal"><span class="pre">pkg.__repr__()</span></tt> is more verbose now</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-3-11" id="id55">Changes in 0.3.11</a><ul>
-<li><a class="reference internal" href="#core-label" id="id56">Core</a><ul>
-<li><a class="reference internal" href="#hy-goal-package-obsoletes-removed-hy-goal-list-obsoleted-by-package-provided-instead" id="id57"><tt class="docutils literal"><span class="pre">hy_goal_package_obsoletes()</span></tt> removed, <tt class="docutils literal"><span class="pre">hy_goal_list_obsoleted_by_package()</span></tt> provided instead</a></li>
-<li><a class="reference internal" href="#hy-goal-list-erasures-does-not-report-obsoletes" id="id58"><tt class="docutils literal"><span class="pre">hy_goal_list_erasures()</span></tt> does not report obsoletes</a></li>
+<li><a class="reference internal" href="#changes-in-0-3-8" id="id45">Changes in 0.3.8</a><ul>
+<li><a class="reference internal" href="#id6" id="id46">Core</a><ul>
+<li><a class="reference internal" href="#new-parameter-rootdir-to-hy-sack-create" id="id47">New parameter <tt class="docutils literal"><span class="pre">rootdir</span></tt> to <tt class="docutils literal"><span class="pre">hy_sack_create()</span></tt></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id11" id="id59">Python bindings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes-in-0-4-5" id="id60">Changes in 0.4.5</a><ul>
-<li><a class="reference internal" href="#id12" id="id61">Core</a><ul>
-<li><a class="reference internal" href="#query-hy-query-filter-latest-now-filter-latest-packages-ignoring-architecture" id="id62">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_latest()</span></tt> now filter latest packages ignoring architecture</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id13" id="id63">Python bindings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changes-in-0-4-13" id="id64">Changes in 0.4.13</a><ul>
-<li><a class="reference internal" href="#id14" id="id65">Core</a><ul>
-<li><a class="reference internal" href="#deprecated-hy-package-get-update" id="id66">Deprecated <tt class="docutils literal"><span class="pre">hy_package_get_update_*</span></tt></a></li>
+<li><a class="reference internal" href="#id7" id="id48">Python bindings</a><ul>
+<li><a class="reference internal" href="#forms-recognized-by-subject-are-no-longer-an-instance-scope-setting" id="id49">Forms recognized by <tt class="docutils literal"><span class="pre">Subject</span></tt> are no longer an instance-scope setting</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changes-in-0-4-15" id="id67">Changes in 0.4.15</a><ul>
-<li><a class="reference internal" href="#id15" id="id68">Core</a><ul>
-<li><a class="reference internal" href="#hy-goal-write-debugdata-takes-a-directory-parameter" id="id69"><tt class="docutils literal"><span class="pre">hy_goal_write_debugdata()</span></tt> takes a directory parameter</a></li>
+<li><a class="reference internal" href="#changes-in-0-3-9" id="id50">Changes in 0.3.9</a><ul>
+<li><a class="reference internal" href="#id8" id="id51">Core</a><ul>
+<li><a class="reference internal" href="#flags-for-hy-sack-create" id="id52">Flags for <tt class="docutils literal"><span class="pre">hy_sack_create</span></tt></a></li>
+<li><a class="reference internal" href="#hy-sack-get-cache-path-is-renamed-to-hy-sack-get-cache-dir" id="id53"><tt class="docutils literal"><span class="pre">hy_sack_get_cache_path</span></tt> is renamed to <tt class="docutils literal"><span class="pre">hy_sack_get_cache_dir</span></tt></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id17" id="id70">Python bindings</a><ul>
-<li><a class="reference internal" href="#goal-write-debugdata-takes-a-directory-parameter" id="id71"><tt class="docutils literal"><span class="pre">Goal.write_debugdata()</span></tt> takes a directory parameter</a></li>
-<li><a class="reference internal" href="#package-string-attributes-are-represented-by-unicode-object" id="id72">Package: string attributes are represented by Unicode object</a></li>
+<li><a class="reference internal" href="#id9" id="id54">Python bindings</a><ul>
+<li><a class="reference internal" href="#make-cache-dir-for-sack-s-constructor" id="id55"><tt class="docutils literal"><span class="pre">make_cache_dir</span></tt> for Sack&#8217;s constructor</a></li>
+<li><a class="reference internal" href="#cache-path-property-of-sack-renamed-to-cache-dir" id="id56"><tt class="docutils literal"><span class="pre">cache_path</span></tt> property of <tt class="docutils literal"><span class="pre">Sack</span></tt> renamed to <tt class="docutils literal"><span class="pre">cache_dir</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-3-11" id="id57">Changes in 0.3.11</a><ul>
+<li><a class="reference internal" href="#core-label" id="id58">Core</a><ul>
+<li><a class="reference internal" href="#hy-goal-package-obsoletes-removed-hy-goal-list-obsoleted-by-package-provided-instead" id="id59"><tt class="docutils literal"><span class="pre">hy_goal_package_obsoletes()</span></tt> removed, <tt class="docutils literal"><span class="pre">hy_goal_list_obsoleted_by_package()</span></tt> provided instead</a></li>
+<li><a class="reference internal" href="#hy-goal-list-erasures-does-not-report-obsoletes" id="id60"><tt class="docutils literal"><span class="pre">hy_goal_list_erasures()</span></tt> does not report obsoletes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11" id="id61">Python bindings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-4-5" id="id62">Changes in 0.4.5</a><ul>
+<li><a class="reference internal" href="#id12" id="id63">Core</a><ul>
+<li><a class="reference internal" href="#query-hy-query-filter-latest-now-filter-latest-packages-ignoring-architecture" id="id64">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_latest()</span></tt> now filter latest packages ignoring architecture</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13" id="id65">Python bindings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-4-13" id="id66">Changes in 0.4.13</a><ul>
+<li><a class="reference internal" href="#id14" id="id67">Core</a><ul>
+<li><a class="reference internal" href="#deprecated-hy-package-get-update" id="id68">Deprecated <tt class="docutils literal"><span class="pre">hy_package_get_update_*</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-4-15" id="id69">Changes in 0.4.15</a><ul>
+<li><a class="reference internal" href="#id15" id="id70">Core</a><ul>
+<li><a class="reference internal" href="#hy-goal-write-debugdata-takes-a-directory-parameter" id="id71"><tt class="docutils literal"><span class="pre">hy_goal_write_debugdata()</span></tt> takes a directory parameter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id17" id="id72">Python bindings</a><ul>
+<li><a class="reference internal" href="#goal-write-debugdata-takes-a-directory-parameter" id="id73"><tt class="docutils literal"><span class="pre">Goal.write_debugdata()</span></tt> takes a directory parameter</a></li>
+<li><a class="reference internal" href="#package-string-attributes-are-represented-by-unicode-object" id="id74">Package: string attributes are represented by Unicode object</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changes-in-0-4-18" id="id75">Changes in 0.4.18</a><ul>
+<li><a class="reference internal" href="#id18" id="id76">Core</a><ul>
+<li><a class="reference internal" href="#deprecated-hy-advisory-get-filenames" id="id77">Deprecated <tt class="docutils literal"><span class="pre">hy_advisory_get_filenames</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id19" id="id78">Python bindings</a><ul>
+<li><a class="reference internal" href="#repo-does-not-accept-cost-keyword-argument" id="id79"><tt class="docutils literal"><span class="pre">Repo()</span></tt> does not accept <tt class="docutils literal"><span class="pre">cost</span></tt> keyword argument</a></li>
+<li><a class="reference internal" href="#deprecated-hawkey-advisory-filenames" id="id80">Deprecated <tt class="docutils literal"><span class="pre">_hawkey.Advisory.filenames</span></tt></a></li>
 </ul>
 </li>
 </ul>
@@ -170,9 +182,9 @@ before upgrading to each respective version. It is our plan to have the amount
 of changes requiring changing the client code go to a minimum after the library
 hits the 1.0.0 version.</p>
 <div class="section" id="changes-in-0-2-10">
-<h2><a class="toc-backref" href="#id19">Changes in 0.2.10</a><a class="headerlink" href="#changes-in-0-2-10" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id21">Changes in 0.2.10</a><a class="headerlink" href="#changes-in-0-2-10" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="python-bindings">
-<h3><a class="toc-backref" href="#id20">Python bindings</a><a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">Python bindings</a><a class="headerlink" href="#python-bindings" title="Permalink to this headline">¶</a></h3>
 <p><tt class="xref py py-meth docutils literal"><span class="pre">Query.filter()</span></tt> now returns a new instance of <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt>, the same as
 the original with the new filtering applied. This allows for greater flexibility
 handling the <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt> objects and resembles the way <tt class="docutils literal"><span class="pre">QuerySets</span></tt> behave in
@@ -199,9 +211,9 @@ the following will also work:</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-2-11">
-<h2><a class="toc-backref" href="#id21">Changes in 0.2.11</a><a class="headerlink" href="#changes-in-0-2-11" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id23">Changes in 0.2.11</a><a class="headerlink" href="#changes-in-0-2-11" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3><a class="toc-backref" href="#id22">Python bindings</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">Python bindings</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>In Python&#8217;s <tt class="xref py py-class docutils literal"><span class="pre">Package</span></tt> instances accessors for string attributes now
 return None instead of the empty string if the attribute is missing (for instance
 a <tt class="docutils literal"><span class="pre">pkg.sourcerpm</span></tt> now returns None if <tt class="docutils literal"><span class="pre">pkg</span></tt> is a source rpm package
@@ -211,21 +223,21 @@ empty string return value free to be used when it is actually the case.</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-3-0">
-<h2><a class="toc-backref" href="#id23">Changes in 0.3.0</a><a class="headerlink" href="#changes-in-0-3-0" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id25">Changes in 0.3.0</a><a class="headerlink" href="#changes-in-0-3-0" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="core">
-<h3><a class="toc-backref" href="#id24">Core</a><a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">Core</a><a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="query-key-for-reponame-filtering">
-<h4><a class="toc-backref" href="#id25">Query: key for reponame filtering</a><a class="headerlink" href="#query-key-for-reponame-filtering" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id27">Query: key for reponame filtering</a><a class="headerlink" href="#query-key-for-reponame-filtering" title="Permalink to this headline">¶</a></h4>
 <p>The Query key value used for filtering by the repo name is <tt class="docutils literal"><span class="pre">HY_PKG_REPONAME</span></tt>
 now (was <tt class="docutils literal"><span class="pre">HY_PKG_REPO</span></tt>). The old value was misleading.</p>
 </div>
 <div class="section" id="repo-initialization">
-<h4><a class="toc-backref" href="#id26">Repo initialization</a><a class="headerlink" href="#repo-initialization" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id28">Repo initialization</a><a class="headerlink" href="#repo-initialization" title="Permalink to this headline">¶</a></h4>
 <p><tt class="docutils literal"><span class="pre">hy_repo_create()</span></tt> for Repo object initialization now needs to be passed a
 name of the repository.</p>
 </div>
 <div class="section" id="query-installs-obsoleted">
-<span id="changes-query-installs"></span><h4><a class="toc-backref" href="#id27">Query installs obsoleted</a><a class="headerlink" href="#query-installs-obsoleted" title="Permalink to this headline">¶</a></h4>
+<span id="changes-query-installs"></span><h4><a class="toc-backref" href="#id29">Query installs obsoleted</a><a class="headerlink" href="#query-installs-obsoleted" title="Permalink to this headline">¶</a></h4>
 <p>All Goal methods accepting Query as the means of selecting packages, such as
 <tt class="docutils literal"><span class="pre">hy_goal_install_query()</span></tt> have been replaced with their Selector
 counterparts. Selector structures have been introduced for the particular
@@ -235,9 +247,9 @@ same time is suitable for installation. For a discussion of this decision see
 </div>
 </div>
 <div class="section" id="id2">
-<h3><a class="toc-backref" href="#id28">Python bindings</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id30">Python bindings</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="query-filtering-by-repository-with-the-reponame-key">
-<h4><a class="toc-backref" href="#id29">Query: filtering by repository with the reponame key</a><a class="headerlink" href="#query-filtering-by-repository-with-the-reponame-key" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id31">Query: filtering by repository with the reponame key</a><a class="headerlink" href="#query-filtering-by-repository-with-the-reponame-key" title="Permalink to this headline">¶</a></h4>
 <p>Similar change happened in Python, the following constructs:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s">&quot;updates&quot;</span><span class="p">)</span>
 </pre></div>
@@ -251,7 +263,7 @@ query and dynamically get the reponame attribute from the returned packages
 (used e.g. in DNF to search by user-specified criteria).</p>
 </div>
 <div class="section" id="package-removed-methods-for-direct-evr-comparison">
-<h4><a class="toc-backref" href="#id30">Package: removed methods for direct EVR comparison</a><a class="headerlink" href="#package-removed-methods-for-direct-evr-comparison" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id32">Package: removed methods for direct EVR comparison</a><a class="headerlink" href="#package-removed-methods-for-direct-evr-comparison" title="Permalink to this headline">¶</a></h4>
 <p>The following will no longer work:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">pkg</span><span class="o">.</span><span class="n">evr_eq</span><span class="p">(</span><span class="n">some_other_pkg</span><span class="p">):</span>
     <span class="o">...</span>
@@ -271,7 +283,7 @@ following is suggested:</p>
 </div>
 </div>
 <div class="section" id="id3">
-<h4><a class="toc-backref" href="#id31">Repo initialization</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id33">Repo initialization</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>All instantiations of <tt class="docutils literal"><span class="pre">hawkey.Repo</span></tt> now must be given the name of the Repo. The
 following will now fail:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Repo</span><span class="p">()</span>
@@ -284,7 +296,7 @@ following will now fail:</p>
 </div>
 </div>
 <div class="section" id="id4">
-<h4><a class="toc-backref" href="#id32">Query installs obsoleted</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id34">Query installs obsoleted</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
 <p>See <a class="reference internal" href="#changes-query-installs"><em>Query installs obsoleted</em></a> in the C section. In Python Queries will no
 longer work as goal target specifiers, the following will fail:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="n">sack</span><span class="p">)</span>
@@ -306,9 +318,9 @@ longer work as goal target specifiers, the following will fail:</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-3-1">
-<h2><a class="toc-backref" href="#id33">Changes in 0.3.1</a><a class="headerlink" href="#changes-in-0-3-1" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id35">Changes in 0.3.1</a><a class="headerlink" href="#changes-in-0-3-1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="query-hy-query-filter-package-in-takes-a-new-parameter">
-<h3><a class="toc-backref" href="#id34">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> takes a new parameter</a><a class="headerlink" href="#query-hy-query-filter-package-in-takes-a-new-parameter" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id36">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> takes a new parameter</a><a class="headerlink" href="#query-hy-query-filter-package-in-takes-a-new-parameter" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">keyname</span></tt> parameter was added to the function signature. The new parameter
 allows filtering by a specific relation to the resulting packages, for
 instance:</p>
@@ -318,7 +330,7 @@ instance:</p>
 <p>only leaves the packages obsoleting a package in <tt class="docutils literal"><span class="pre">pset</span></tt> a part of the result.</p>
 </div>
 <div class="section" id="removed-hy-query-filter-obsoleting">
-<h3><a class="toc-backref" href="#id35">Removed <tt class="docutils literal"><span class="pre">hy_query_filter_obsoleting()</span></tt></a><a class="headerlink" href="#removed-hy-query-filter-obsoleting" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id37">Removed <tt class="docutils literal"><span class="pre">hy_query_filter_obsoleting()</span></tt></a><a class="headerlink" href="#removed-hy-query-filter-obsoleting" title="Permalink to this headline">¶</a></h3>
 <p>The new version of <tt class="docutils literal"><span class="pre">hy_query_filter_package_in()</span></tt> handles this now, see above.</p>
 <p>In Python, the following is no longer supported:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">obsoleting</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -332,9 +344,9 @@ instance:</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-3-2">
-<h2><a class="toc-backref" href="#id36">Changes in 0.3.2</a><a class="headerlink" href="#changes-in-0-3-2" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id38">Changes in 0.3.2</a><a class="headerlink" href="#changes-in-0-3-2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="removed-hy-packagelist-of-obsoletes">
-<h3><a class="toc-backref" href="#id37">Removed <tt class="docutils literal"><span class="pre">hy_packagelist_of_obsoletes</span></tt>.</a><a class="headerlink" href="#removed-hy-packagelist-of-obsoletes" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id39">Removed <tt class="docutils literal"><span class="pre">hy_packagelist_of_obsoletes</span></tt>.</a><a class="headerlink" href="#removed-hy-packagelist-of-obsoletes" title="Permalink to this headline">¶</a></h3>
 <p>The function was not systematic. Same result is achieved by obtaining obsoleting
 reldeps from a package and then trying to find the installed packages that
 provide it. In Python:</p>
@@ -344,19 +356,19 @@ provide it. In Python:</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-3-3">
-<h2><a class="toc-backref" href="#id38">Changes in 0.3.3</a><a class="headerlink" href="#changes-in-0-3-3" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id40">Changes in 0.3.3</a><a class="headerlink" href="#changes-in-0-3-3" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="renamed-hy-package-get-nvra-to-hy-package-get-nevra">
-<h3><a class="toc-backref" href="#id39">Renamed <tt class="docutils literal"><span class="pre">hy_package_get_nvra</span></tt> to <tt class="docutils literal"><span class="pre">hy_package_get_nevra</span></tt></a><a class="headerlink" href="#renamed-hy-package-get-nvra-to-hy-package-get-nevra" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id41">Renamed <tt class="docutils literal"><span class="pre">hy_package_get_nvra</span></tt> to <tt class="docutils literal"><span class="pre">hy_package_get_nevra</span></tt></a><a class="headerlink" href="#renamed-hy-package-get-nvra-to-hy-package-get-nevra" title="Permalink to this headline">¶</a></h3>
 <p>The old name was by error, the functionality has not changed: this function has
 always returned the full NEVRA, skipping the epoch part when it&#8217;s 0.</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-3-4">
-<h2><a class="toc-backref" href="#id40">Changes in 0.3.4</a><a class="headerlink" href="#changes-in-0-3-4" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id42">Changes in 0.3.4</a><a class="headerlink" href="#changes-in-0-3-4" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id5">
-<h3><a class="toc-backref" href="#id41">Python bindings</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id43">Python bindings</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="pkg-repr-is-more-verbose-now">
-<h4><a class="toc-backref" href="#id42"><tt class="docutils literal"><span class="pre">pkg.__repr__()</span></tt> is more verbose now</a><a class="headerlink" href="#pkg-repr-is-more-verbose-now" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id44"><tt class="docutils literal"><span class="pre">pkg.__repr__()</span></tt> is more verbose now</a><a class="headerlink" href="#pkg-repr-is-more-verbose-now" title="Permalink to this headline">¶</a></h4>
 <p>Previously, <tt class="docutils literal"><span class="pre">repr(pkg)</span></tt> would yield for instance <tt class="docutils literal"><span class="pre">&lt;_hawkey.Package</span> <span class="pre">object,</span>
 <span class="pre">id:</span> <span class="pre">5&gt;</span></tt>. Now more complete information is present, including the package&#8217;s
 NEVRA and repository: <tt class="docutils literal"><span class="pre">&lt;hawkey.Package</span> <span class="pre">object</span> <span class="pre">id</span> <span class="pre">5,</span> <span class="pre">foo-2-9\.noarch,</span>
@@ -367,11 +379,11 @@ type, not <tt class="docutils literal"><span class="pre">_hawkey.Package</span><
 </div>
 </div>
 <div class="section" id="changes-in-0-3-8">
-<h2><a class="toc-backref" href="#id43">Changes in 0.3.8</a><a class="headerlink" href="#changes-in-0-3-8" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id45">Changes in 0.3.8</a><a class="headerlink" href="#changes-in-0-3-8" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id6">
-<h3><a class="toc-backref" href="#id44">Core</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id46">Core</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="new-parameter-rootdir-to-hy-sack-create">
-<h4><a class="toc-backref" href="#id45">New parameter <tt class="docutils literal"><span class="pre">rootdir</span></tt> to <tt class="docutils literal"><span class="pre">hy_sack_create()</span></tt></a><a class="headerlink" href="#new-parameter-rootdir-to-hy-sack-create" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id47">New parameter <tt class="docutils literal"><span class="pre">rootdir</span></tt> to <tt class="docutils literal"><span class="pre">hy_sack_create()</span></tt></a><a class="headerlink" href="#new-parameter-rootdir-to-hy-sack-create" title="Permalink to this headline">¶</a></h4>
 <p><tt class="docutils literal"><span class="pre">hy_sack_create()</span></tt> now accepts third argument, <tt class="docutils literal"><span class="pre">rootdir</span></tt>. This can be used
 to tell Hawkey that we are intending to do transactions in a changeroot, not in
 the current root. It effectively makes use of the RPM database found under
@@ -384,9 +396,9 @@ the current root. It effectively makes use of the RPM database found under
 </div>
 </div>
 <div class="section" id="id7">
-<h3><a class="toc-backref" href="#id46">Python bindings</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id48">Python bindings</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="forms-recognized-by-subject-are-no-longer-an-instance-scope-setting">
-<h4><a class="toc-backref" href="#id47">Forms recognized by <tt class="docutils literal"><span class="pre">Subject</span></tt> are no longer an instance-scope setting</a><a class="headerlink" href="#forms-recognized-by-subject-are-no-longer-an-instance-scope-setting" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id49">Forms recognized by <tt class="docutils literal"><span class="pre">Subject</span></tt> are no longer an instance-scope setting</a><a class="headerlink" href="#forms-recognized-by-subject-are-no-longer-an-instance-scope-setting" title="Permalink to this headline">¶</a></h4>
 <p>It became necessary to differentiate between the default forms used by
 <tt class="docutils literal"><span class="pre">subject.nevra_possibilities()</span></tt> and
 <tt class="docutils literal"><span class="pre">subject.nevra_possibilities_real()</span></tt>. Therefore there is little sense in
@@ -405,11 +417,11 @@ code:</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-3-9">
-<h2><a class="toc-backref" href="#id48">Changes in 0.3.9</a><a class="headerlink" href="#changes-in-0-3-9" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id50">Changes in 0.3.9</a><a class="headerlink" href="#changes-in-0-3-9" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id8">
-<h3><a class="toc-backref" href="#id49">Core</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id51">Core</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="flags-for-hy-sack-create">
-<h4><a class="toc-backref" href="#id50">Flags for <tt class="docutils literal"><span class="pre">hy_sack_create</span></tt></a><a class="headerlink" href="#flags-for-hy-sack-create" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id52">Flags for <tt class="docutils literal"><span class="pre">hy_sack_create</span></tt></a><a class="headerlink" href="#flags-for-hy-sack-create" title="Permalink to this headline">¶</a></h4>
 <p><tt class="docutils literal"><span class="pre">hy_sack_create()</span></tt> now accepts fourth argument, <tt class="docutils literal"><span class="pre">flags</span></tt>, introduced to
 modify the sack behavior with boolean flags. Currently only one flag is
 supported, <tt class="docutils literal"><span class="pre">HY_MAKE_CACHE_DIR</span></tt>, which causes the cache directory to be created
@@ -422,14 +434,14 @@ following:</p>
 </div>
 </div>
 <div class="section" id="hy-sack-get-cache-path-is-renamed-to-hy-sack-get-cache-dir">
-<h4><a class="toc-backref" href="#id51"><tt class="docutils literal"><span class="pre">hy_sack_get_cache_path</span></tt> is renamed to <tt class="docutils literal"><span class="pre">hy_sack_get_cache_dir</span></tt></a><a class="headerlink" href="#hy-sack-get-cache-path-is-renamed-to-hy-sack-get-cache-dir" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id53"><tt class="docutils literal"><span class="pre">hy_sack_get_cache_path</span></tt> is renamed to <tt class="docutils literal"><span class="pre">hy_sack_get_cache_dir</span></tt></a><a class="headerlink" href="#hy-sack-get-cache-path-is-renamed-to-hy-sack-get-cache-dir" title="Permalink to this headline">¶</a></h4>
 <p>Update your code by mechanically replacing the name.</p>
 </div>
 </div>
 <div class="section" id="id9">
-<h3><a class="toc-backref" href="#id52">Python bindings</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id54">Python bindings</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="make-cache-dir-for-sack-s-constructor">
-<h4><a class="toc-backref" href="#id53"><tt class="docutils literal"><span class="pre">make_cache_dir</span></tt> for Sack&#8217;s constructor</a><a class="headerlink" href="#make-cache-dir-for-sack-s-constructor" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id55"><tt class="docutils literal"><span class="pre">make_cache_dir</span></tt> for Sack&#8217;s constructor</a><a class="headerlink" href="#make-cache-dir-for-sack-s-constructor" title="Permalink to this headline">¶</a></h4>
 <p>A new sack by default no longer automatically creates the cache directory. To
 get the old behavior, append <tt class="docutils literal"><span class="pre">make_cache_dir=True</span></tt> to the Sack&#8217;s constructor
 arguments, that is change the following:</p>
@@ -442,17 +454,17 @@ arguments, that is change the following:</p>
 </div>
 </div>
 <div class="section" id="cache-path-property-of-sack-renamed-to-cache-dir">
-<h4><a class="toc-backref" href="#id54"><tt class="docutils literal"><span class="pre">cache_path</span></tt> property of <tt class="docutils literal"><span class="pre">Sack</span></tt> renamed to <tt class="docutils literal"><span class="pre">cache_dir</span></tt></a><a class="headerlink" href="#cache-path-property-of-sack-renamed-to-cache-dir" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id56"><tt class="docutils literal"><span class="pre">cache_path</span></tt> property of <tt class="docutils literal"><span class="pre">Sack</span></tt> renamed to <tt class="docutils literal"><span class="pre">cache_dir</span></tt></a><a class="headerlink" href="#cache-path-property-of-sack-renamed-to-cache-dir" title="Permalink to this headline">¶</a></h4>
 <p>Reflects the similar change in C API.</p>
 </div>
 </div>
 </div>
 <div class="section" id="changes-in-0-3-11">
-<h2><a class="toc-backref" href="#id55">Changes in 0.3.11</a><a class="headerlink" href="#changes-in-0-3-11" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id57">Changes in 0.3.11</a><a class="headerlink" href="#changes-in-0-3-11" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="core-label">
-<span id="id10"></span><h3><a class="toc-backref" href="#id56">Core</a><a class="headerlink" href="#core-label" title="Permalink to this headline">¶</a></h3>
+<span id="id10"></span><h3><a class="toc-backref" href="#id58">Core</a><a class="headerlink" href="#core-label" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="hy-goal-package-obsoletes-removed-hy-goal-list-obsoleted-by-package-provided-instead">
-<h4><a class="toc-backref" href="#id57"><tt class="docutils literal"><span class="pre">hy_goal_package_obsoletes()</span></tt> removed, <tt class="docutils literal"><span class="pre">hy_goal_list_obsoleted_by_package()</span></tt> provided instead</a><a class="headerlink" href="#hy-goal-package-obsoletes-removed-hy-goal-list-obsoleted-by-package-provided-instead" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id59"><tt class="docutils literal"><span class="pre">hy_goal_package_obsoletes()</span></tt> removed, <tt class="docutils literal"><span class="pre">hy_goal_list_obsoleted_by_package()</span></tt> provided instead</a><a class="headerlink" href="#hy-goal-package-obsoletes-removed-hy-goal-list-obsoleted-by-package-provided-instead" title="Permalink to this headline">¶</a></h4>
 <p><tt class="docutils literal"><span class="pre">hy_goal_package_obsoletes()</span></tt> was flawed in that it only returned a single
 obsoleted package (in general, package can obsolete arbitrary number of packages
 and upgrade a package of the same name which is also reported as an
@@ -461,13 +473,13 @@ complete set of packages that inclusion of the given package in an RPM
 transaction will cause to be removed.</p>
 </div>
 <div class="section" id="hy-goal-list-erasures-does-not-report-obsoletes">
-<h4><a class="toc-backref" href="#id58"><tt class="docutils literal"><span class="pre">hy_goal_list_erasures()</span></tt> does not report obsoletes</a><a class="headerlink" href="#hy-goal-list-erasures-does-not-report-obsoletes" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id60"><tt class="docutils literal"><span class="pre">hy_goal_list_erasures()</span></tt> does not report obsoletes</a><a class="headerlink" href="#hy-goal-list-erasures-does-not-report-obsoletes" title="Permalink to this headline">¶</a></h4>
 <p>In other words, <tt class="docutils literal"><span class="pre">hy_goal_list_erasures()</span></tt> and <tt class="docutils literal"><span class="pre">hy_goal_list_obsoleted()</span></tt>
 return disjoint sets.</p>
 </div>
 </div>
 <div class="section" id="id11">
-<h3><a class="toc-backref" href="#id59">Python bindings</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id61">Python bindings</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>Directly reflecting the <a class="reference internal" href="#core-label"><em>core changes</em></a>. In particular,
 instead of:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">obsoleted_pkg</span> <span class="o">=</span> <span class="n">goal</span><span class="o">.</span><span class="n">package_obsoletes</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span>
@@ -481,16 +493,16 @@ instead of:</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-4-5">
-<h2><a class="toc-backref" href="#id60">Changes in 0.4.5</a><a class="headerlink" href="#changes-in-0-4-5" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id62">Changes in 0.4.5</a><a class="headerlink" href="#changes-in-0-4-5" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id12">
-<h3><a class="toc-backref" href="#id61">Core</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id63">Core</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="query-hy-query-filter-latest-now-filter-latest-packages-ignoring-architecture">
-<h4><a class="toc-backref" href="#id62">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_latest()</span></tt> now filter latest packages ignoring architecture</a><a class="headerlink" href="#query-hy-query-filter-latest-now-filter-latest-packages-ignoring-architecture" title="Permalink to this headline">¶</a></h4>
-<p>For old function behaviour use new function <tt class="docutils literal"><span class="pre">hy_query_filter_latest_per_arch()</span></tt></p>
+<h4><a class="toc-backref" href="#id64">Query: <tt class="docutils literal"><span class="pre">hy_query_filter_latest()</span></tt> now filter latest packages ignoring architecture</a><a class="headerlink" href="#query-hy-query-filter-latest-now-filter-latest-packages-ignoring-architecture" title="Permalink to this headline">¶</a></h4>
+<p>For old function behavior use new function <tt class="docutils literal"><span class="pre">hy_query_filter_latest_per_arch()</span></tt></p>
 </div>
 </div>
 <div class="section" id="id13">
-<h3><a class="toc-backref" href="#id63">Python bindings</a><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id65">Python bindings</a><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>In Python&#8217;s <tt class="xref py py-class docutils literal"><span class="pre">Query</span></tt> option <tt class="docutils literal"><span class="pre">latest</span></tt> in <tt class="xref py py-meth docutils literal"><span class="pre">Query.filter()</span></tt> now filter
 only the latest packages ignoring architecture. The original semantics for filtering
 latest packages for each arch is now available via <tt class="docutils literal"><span class="pre">latest_per_arch</span></tt> option.</p>
@@ -509,17 +521,17 @@ glibc-2.16-24.fc18.i686
 </div>
 </div>
 <div class="section" id="changes-in-0-4-13">
-<h2><a class="toc-backref" href="#id64">Changes in 0.4.13</a><a class="headerlink" href="#changes-in-0-4-13" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id66">Changes in 0.4.13</a><a class="headerlink" href="#changes-in-0-4-13" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id14">
-<h3><a class="toc-backref" href="#id65">Core</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id67">Core</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="deprecated-hy-package-get-update">
-<h4><a class="toc-backref" href="#id66">Deprecated <tt class="docutils literal"><span class="pre">hy_package_get_update_*</span></tt></a><a class="headerlink" href="#deprecated-hy-package-get-update" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id68">Deprecated <tt class="docutils literal"><span class="pre">hy_package_get_update_*</span></tt></a><a class="headerlink" href="#deprecated-hy-package-get-update" title="Permalink to this headline">¶</a></h4>
 <p>The functions were deprecated because there can be multiple advisories referring
 to a single package. Please use the new function <tt class="docutils literal"><span class="pre">hy_package_get_advisories()</span></tt>
 which returns all these advisories. New functions <tt class="docutils literal"><span class="pre">hy_advisory_get_*</span></tt> provide
 the data retrieved by the deprecated functions.</p>
 <p>The only exception is the <tt class="docutils literal"><span class="pre">hy_package_get_update_severity()</span></tt> which will be
-dropped without any replacement. However advisory types and severities are
+dropped without any replacement. However advisory types and severity levels are
 distinguished from now and the type is accessible via <tt class="docutils literal"><span class="pre">hy_advisory_get_type()</span></tt>.
 Thus enum <tt class="docutils literal"><span class="pre">HyUpdateSeverity</span></tt> was also deprecated. A new <tt class="docutils literal"><span class="pre">HyAdvisoryType</span></tt>
 should be used instead.</p>
@@ -528,11 +540,11 @@ should be used instead.</p>
 </div>
 </div>
 <div class="section" id="changes-in-0-4-15">
-<h2><a class="toc-backref" href="#id67">Changes in 0.4.15</a><a class="headerlink" href="#changes-in-0-4-15" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id69">Changes in 0.4.15</a><a class="headerlink" href="#changes-in-0-4-15" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id15">
-<span id="id16"></span><h3><a class="toc-backref" href="#id68">Core</a><a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<span id="id16"></span><h3><a class="toc-backref" href="#id70">Core</a><a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="hy-goal-write-debugdata-takes-a-directory-parameter">
-<h4><a class="toc-backref" href="#id69"><tt class="docutils literal"><span class="pre">hy_goal_write_debugdata()</span></tt> takes a directory parameter</a><a class="headerlink" href="#hy-goal-write-debugdata-takes-a-directory-parameter" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id71"><tt class="docutils literal"><span class="pre">hy_goal_write_debugdata()</span></tt> takes a directory parameter</a><a class="headerlink" href="#hy-goal-write-debugdata-takes-a-directory-parameter" title="Permalink to this headline">¶</a></h4>
 <p><tt class="docutils literal"><span class="pre">hy_goal_write_debugdata()</span></tt> has a new <cite>const char *dir</cite> argument to communicate the target directory for the debugging data. The old call:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">hy_goal_write_debugdata</span><span class="p">(</span><span class="n">goal</span><span class="p">);</span>
 </pre></div>
@@ -544,14 +556,53 @@ should be used instead.</p>
 </div>
 </div>
 <div class="section" id="id17">
-<h3><a class="toc-backref" href="#id70">Python bindings</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id72">Python bindings</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="goal-write-debugdata-takes-a-directory-parameter">
-<h4><a class="toc-backref" href="#id71"><tt class="docutils literal"><span class="pre">Goal.write_debugdata()</span></tt> takes a directory parameter</a><a class="headerlink" href="#goal-write-debugdata-takes-a-directory-parameter" title="Permalink to this headline">¶</a></h4>
-<p>Analogus to <a class="reference internal" href="#id15"><em>core changes</em></a>.</p>
+<h4><a class="toc-backref" href="#id73"><tt class="docutils literal"><span class="pre">Goal.write_debugdata()</span></tt> takes a directory parameter</a><a class="headerlink" href="#goal-write-debugdata-takes-a-directory-parameter" title="Permalink to this headline">¶</a></h4>
+<p>Analogous to <a class="reference internal" href="#id15"><em>core changes</em></a>.</p>
 </div>
 <div class="section" id="package-string-attributes-are-represented-by-unicode-object">
-<h4><a class="toc-backref" href="#id72">Package: string attributes are represented by Unicode object</a><a class="headerlink" href="#package-string-attributes-are-represented-by-unicode-object" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id74">Package: string attributes are represented by Unicode object</a><a class="headerlink" href="#package-string-attributes-are-represented-by-unicode-object" title="Permalink to this headline">¶</a></h4>
 <p>Attributes <tt class="docutils literal"><span class="pre">baseurl</span></tt>, <tt class="docutils literal"><span class="pre">location</span></tt>, <tt class="docutils literal"><span class="pre">sourcerpm</span></tt>, <tt class="docutils literal"><span class="pre">version</span></tt>, <tt class="docutils literal"><span class="pre">release</span></tt>, <tt class="docutils literal"><span class="pre">name</span></tt>, <tt class="docutils literal"><span class="pre">arch</span></tt>, <tt class="docutils literal"><span class="pre">description</span></tt>, <tt class="docutils literal"><span class="pre">evr</span></tt>, <tt class="docutils literal"><span class="pre">license</span></tt>, <tt class="docutils literal"><span class="pre">packager</span></tt>, <tt class="docutils literal"><span class="pre">reponame</span></tt>, <tt class="docutils literal"><span class="pre">summary</span></tt> and <tt class="docutils literal"><span class="pre">url</span></tt> of Package object return Unicode string.</p>
+</div>
+</div>
+</div>
+<div class="section" id="changes-in-0-4-18">
+<h2><a class="toc-backref" href="#id75">Changes in 0.4.18</a><a class="headerlink" href="#changes-in-0-4-18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h3><a class="toc-backref" href="#id76">Core</a><a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="deprecated-hy-advisory-get-filenames">
+<h4><a class="toc-backref" href="#id77">Deprecated <tt class="docutils literal"><span class="pre">hy_advisory_get_filenames</span></tt></a><a class="headerlink" href="#deprecated-hy-advisory-get-filenames" title="Permalink to this headline">¶</a></h4>
+<p>The function was deprecated because we need more information about packages
+listed in an advisory than just file names. Please use the new function
+<tt class="docutils literal"><span class="pre">hy_advisory_get_packages()</span></tt> in combination with
+<tt class="docutils literal"><span class="pre">hy_advisorypkg_get_string()</span></tt> to obtain the data originally provided by the
+deprecated function.</p>
+<p>The old function will be dropped after 2014-10-15 AND no sooner than in 0.4.21.</p>
+</div>
+</div>
+<div class="section" id="id19">
+<h3><a class="toc-backref" href="#id78">Python bindings</a><a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="repo-does-not-accept-cost-keyword-argument">
+<h4><a class="toc-backref" href="#id79"><tt class="docutils literal"><span class="pre">Repo()</span></tt> does not accept <tt class="docutils literal"><span class="pre">cost</span></tt> keyword argument</a><a class="headerlink" href="#repo-does-not-accept-cost-keyword-argument" title="Permalink to this headline">¶</a></h4>
+<p>Instead of:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="n">cost</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">hawkey</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="mi">30</span>
+</pre></div>
+</div>
+<p>Also previously when no <tt class="docutils literal"><span class="pre">cost</span></tt> was given it defaulted to 1000. Now the default is 0. Both these aspects were present by mistake and the new interface is consistent with the C library.</p>
+</div>
+<div class="section" id="deprecated-hawkey-advisory-filenames">
+<h4><a class="toc-backref" href="#id80">Deprecated <tt class="docutils literal"><span class="pre">_hawkey.Advisory.filenames</span></tt></a><a class="headerlink" href="#deprecated-hawkey-advisory-filenames" title="Permalink to this headline">¶</a></h4>
+<p>The attribute was deprecated because the underlying C function was also
+deprecated. Please use the new attribute <tt class="docutils literal"><span class="pre">packages</span></tt> and the attribute
+<tt class="docutils literal"><span class="pre">filename</span></tt> of the returned objects to obtain the data originally provided by
+the deprecated attribute.</p>
+<p>The old attribute will be dropped after 2014-10-15 AND no sooner than in 0.4.21.</p>
 </div>
 </div>
 </div>
@@ -670,6 +721,18 @@ should be used instead.</p>
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#changes-in-0-4-18">Changes in 0.4.18</a><ul>
+<li><a class="reference internal" href="#id18">Core</a><ul>
+<li><a class="reference internal" href="#deprecated-hy-advisory-get-filenames">Deprecated <tt class="docutils literal"><span class="pre">hy_advisory_get_filenames</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id19">Python bindings</a><ul>
+<li><a class="reference internal" href="#repo-does-not-accept-cost-keyword-argument"><tt class="docutils literal"><span class="pre">Repo()</span></tt> does not accept <tt class="docutils literal"><span class="pre">cost</span></tt> keyword argument</a></li>
+<li><a class="reference internal" href="#deprecated-hawkey-advisory-filenames">Deprecated <tt class="docutils literal"><span class="pre">_hawkey.Advisory.filenames</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -714,7 +777,7 @@ should be used instead.</p>
         <li class="right" >
           <a href="index.html" title="Hawkey, the libsolv API Simplified"
              >previous</a> |</li>
-        <li><a href="index.html">Hawkey 0.4.17-1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Hawkey 0.4.18-1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
