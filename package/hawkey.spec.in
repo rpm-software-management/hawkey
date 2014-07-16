@@ -1,9 +1,9 @@
-%global gitrev 4f4bf92
+%global gitrev 9b92ebd
 %global libsolv_version 0.6.4-0
 
 Name:		hawkey
 Version:	@VERSION@
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing simplified C and Python API to libsolv
 Group:		System Environment/Libraries
 License:	LGPLv2+
@@ -107,6 +107,9 @@ popd
 %exclude %{python3_sitearch}/hawkey/test/__pycache__
 
 %changelog
+
+* Wed Jul 16 2014 Aleš Kozumplik <ales@redhat.com> - 0.4.18-2
+- Revert "api change: drop deprecated hy_package_get_update_*." (Radek Holy)
 
 * Wed Jul 16 2014 Aleš Kozumplik <ales@redhat.com> - 0.4.18-1
 - api change: py: deprecate _hawkey.Advisory.filenames. (Radek Holy)
