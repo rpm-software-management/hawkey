@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "HAWKEY" "3" "July 03, 2014" "0.4.17" "Hawkey"
+.TH "HAWKEY" "3" "July 16, 2014" "0.4.18" "Hawkey"
 .SH NAME
 hawkey \- Hawkey Documentation
 .
@@ -65,6 +65,8 @@ Contents:
 .IP \(bu 2
 \fI\%API Changes\fP
 .INDENT 2.0
+.IP \(bu 2
+\fI\%Introduction\fP
 .IP \(bu 2
 \fI\%Changes in 0.2.10\fP
 .INDENT 2.0
@@ -223,13 +225,43 @@ Contents:
 \fI\%Package: string attributes are represented by Unicode object\fP
 .UNINDENT
 .UNINDENT
+.IP \(bu 2
+\fI\%Changes in 0.4.18\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Core\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Deprecated hy_advisory_get_filenames\fP
 .UNINDENT
+.IP \(bu 2
+\fI\%Python bindings\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%Repo() does not accept cost keyword argument\fP
+.IP \(bu 2
+\fI\%Deprecated _hawkey.Advisory.filenames\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Introduction
+.sp
+This document describes the API changes the library users should be aware of before upgrading to each respective version. It is our plan to have the amount of changes requiring changing the client code go to a minimum after the library hits the 1.0.0 version.
+.sp
+Depracated API items (classes, methods, etc.) are designated as such in this document. The first release where support for such items can be dropped entirely must be issued at \fIleast five months\fP after the issue of the release that announced the deprecation and at the same time have, relatively to the deprecating release, either:
+.INDENT 0.0
+.IP \(bu 2
+a higher major version number, or
+.IP \(bu 2
+a higher minor version number, or
+.IP \(bu 2
+a patchlevel number that is \fIby at least five\fP greater.
 .UNINDENT
 .sp
-This document describes the API changes the library users should be aware of
-before upgrading to each respective version. It is our plan to have the amount
-of changes requiring changing the client code go to a minimum after the library
-hits the 1.0.0 version.
+These criteria are likely to tighten in the future as hawkey matures.
+.sp
+Actual changes in the API are then announced in this document as well. ABI changes including changes in functions\(aq parameter counts or types or removal of public symbols from \fBlibhawkey\fP imply an increase in the library\(aqs SONAME version.
 .SS Changes in 0.2.10
 .SS Python bindings
 .sp
@@ -699,7 +731,7 @@ obsoleted_pkg = obsoleted[0]
 .SS Core
 .SS Query: \fBhy_query_filter_latest()\fP now filter latest packages ignoring architecture
 .sp
-For old function behaviour use new function \fBhy_query_filter_latest_per_arch()\fP
+For old function behavior use new function \fBhy_query_filter_latest_per_arch()\fP
 .SS Python bindings
 .sp
 In Python\(aqs \fBQuery\fP option \fBlatest\fP in \fBQuery.filter()\fP now filter
@@ -736,7 +768,7 @@ which returns all these advisories. New functions \fBhy_advisory_get_*\fP provid
 the data retrieved by the deprecated functions.
 .sp
 The only exception is the \fBhy_package_get_update_severity()\fP which will be
-dropped without any replacement. However advisory types and severities are
+dropped without any replacement. However advisory types and severity levels are
 distinguished from now and the type is accessible via \fBhy_advisory_get_type()\fP\&.
 Thus enum \fBHyUpdateSeverity\fP was also deprecated. A new \fBHyAdvisoryType\fP
 should be used instead.
@@ -772,10 +804,58 @@ hy_goal_write_debugdata(goal, "./debugdata");
 .SS Python bindings
 .SS \fBGoal.write_debugdata()\fP takes a directory parameter
 .sp
-Analogus to \fIcore changes\fP\&.
+Analogous to \fIcore changes\fP\&.
 .SS Package: string attributes are represented by Unicode object
 .sp
 Attributes \fBbaseurl\fP, \fBlocation\fP, \fBsourcerpm\fP, \fBversion\fP, \fBrelease\fP, \fBname\fP, \fBarch\fP, \fBdescription\fP, \fBevr\fP, \fBlicense\fP, \fBpackager\fP, \fBreponame\fP, \fBsummary\fP and \fBurl\fP of Package object return Unicode string.
+.SS Changes in 0.4.18
+.SS Core
+.SS Deprecated \fBhy_advisory_get_filenames\fP
+.sp
+The function was deprecated because we need more information about packages
+listed in an advisory than just file names. Please use the new function
+\fBhy_advisory_get_packages()\fP in combination with
+\fBhy_advisorypkg_get_string()\fP to obtain the data originally provided by the
+deprecated function.
+.sp
+The old function will be dropped after 2014\-10\-15 AND no sooner than in 0.4.21.
+.SS Python bindings
+.SS \fBRepo()\fP does not accept \fBcost\fP keyword argument
+.sp
+Instead of:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+r = hawkey.Repo(\(aqname\(aq, cost=30)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+use:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+r = hawkey.Repo(\(aqname\(aq)
+r.cost = 30
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Also previously when no \fBcost\fP was given it defaulted to 1000. Now the default is 0. Both these aspects were present by mistake and the new interface is consistent with the C library.
+.SS Deprecated \fB_hawkey.Advisory.filenames\fP
+.sp
+The attribute was deprecated because the underlying C function was also
+deprecated. Please use the new attribute \fBpackages\fP and the attribute
+\fBfilename\fP of the returned objects to obtain the data originally provided by
+the deprecated attribute.
+.sp
+The old attribute will be dropped after 2014\-10\-15 AND no sooner than in 0.4.21.
 .SH FAQ
 .SS Contents
 .INDENT 0.0
