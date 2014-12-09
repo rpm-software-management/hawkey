@@ -1,9 +1,9 @@
-%global gitrev ef6ffd4
+%global gitrev b7e6154ba9b268dcdfc85eac68d0ac37dbf0c317
 %global libsolv_version 0.6.4-1
 
 Name:		hawkey
 Version:	@VERSION@
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing simplified C and Python API to libsolv
 Group:		System Environment/Libraries
 License:	LGPLv2+
@@ -74,6 +74,11 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{python_sitearch}/
 
 %changelog
+
+* Tue Dec 9 2014 Radek Holý <rholy@redhat.com> - 0.5.0-2
+- packaging: make the spec file compatible with GitHub packaging guideliness. (Radek Holy)
+- packaging: lift the sphinx version condition. (Ales Kozumplik)
+- packaging: no py3 builds. (Ales Kozumplik)
 
 * Tue Aug 12 2014 Aleš Kozumplik <ales@redhat.com> - 0.5.0-1
 - sack: include directive support added (Related:RhBug:1055910) (Jan Silhan)
