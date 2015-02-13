@@ -49,6 +49,8 @@ struct _HySack {
 };
 
 void sack_make_provides_ready(HySack sack);
+HySack sack_create_log(const char *cache_path, const char *arch, const char *rootdir,
+	               const char* log_file, int flags);
 Id sack_running_kernel(HySack sack);
 void sack_log(HySack sack, int level, const char *format, ...);
 int sack_knows(HySack sack, const char *name, const char *version, int flags);

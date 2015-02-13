@@ -161,7 +161,7 @@ sack_init(_SackObject *self, PyObject *args, PyObject *kwds)
     int flags = 0;
     if (make_cache_dir)
 	flags |= HY_MAKE_CACHE_DIR;
-    self->sack = hy_sack_create(cachedir, arch, rootdir, logfile, flags);
+    self->sack = sack_create_log(cachedir, arch, rootdir, logfile, flags);
     Py_XDECREF(tmp_py_str);
     Py_XDECREF(tmp2_py_str);
     if (self->sack == NULL) {

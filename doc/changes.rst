@@ -540,19 +540,6 @@ Changes in 0.5.3
 Core
 ----
 
-New parameter ``logfile`` to ``hy_sack_create()``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``hy_sack_create()`` now accepts fifth argument, ``logfile`` to customize log file path.
-If NULL parameter as ``logfile`` is given, then all debug records are written to ``hawkey.log``
-in ``cachedir``. To make your code compile in 0.5.3 without changing functionality, change::
-
-    HySack sack = hy_sack_create(cachedir, arch, rootdir, 0);
-
-to::
-
-    HySack sack = hy_sack_create(cachedir, arch, rootdir, NULL, 0);
-
 Deprecated ``hy_create_cmdline_repo()``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

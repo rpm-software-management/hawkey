@@ -606,18 +606,9 @@ load_yum_repo(HySack sack, HyRepo hrepo)
     return retval;
 }
 
-/**
- * Creates a new package sack, the fundamental hawkey structure.
- *
- * If 'cache_path' is not NULL it is used to override the default filesystem
- * location where hawkey will store its metadata cache and log file.
- *
- * 'arch' specifies the architecture. NULL value causes autodetection.
- * 'rootdir' is the installroot. NULL means the current root, '/'.
- */
 HySack
-hy_sack_create(const char *cache_path, const char *arch, const char *rootdir,
-	       const char* log_file, int flags)
+sack_create_log(const char *cache_path, const char *arch, const char *rootdir,
+	        const char* log_file, int flags)
 {
     HySack sack = solv_calloc(1, sizeof(*sack));
     Pool *pool = pool_create();
@@ -669,6 +660,22 @@ hy_sack_create(const char *cache_path, const char *arch, const char *rootdir,
  fail:
     hy_sack_free(sack);
     return NULL;
+}
+
+/**
+ * Creates a new package sack, the fundamental hawkey structure.
+ *
+ * If 'cache_path' is not NULL it is used to override the default filesystem
+ * location where hawkey will store its metadata cache and log file.
+ *
+ * 'arch' specifies the architecture. NULL value causes autodetection.
+ * 'rootdir' is the installroot. NULL means the current root, '/'.
+ */
+HySack
+hy_sack_create(const char *cache_path, const char *arch, const char *rootdir,
+	       int flags)
+{
+    return sack_create_log(cache_path, arch, rootdir, NULL, flags);
 }
 
 void

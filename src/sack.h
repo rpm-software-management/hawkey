@@ -40,7 +40,7 @@ enum _hy_sack_repo_load_flags {
 };
 
 HySack hy_sack_create(const char *cachedir, const char *arch, const char *rootdir,
-		      const char* logfile, int flags);
+		      int flags);
 void hy_sack_free(HySack sack);
 int hy_sack_evr_cmp(HySack sack, const char *evr1, const char *evr2);
 const char *hy_sack_get_cache_dir(HySack sack);
