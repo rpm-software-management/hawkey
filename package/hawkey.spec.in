@@ -1,9 +1,9 @@
-%global gitrev c3207af
+%global gitrev 85826ee4905b0422e3490fc2aa1b6d9bd6a302b2
 %global libsolv_version 0.6.4-1
 
 Name:		hawkey
 Version:	@VERSION@
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing simplified C and Python API to libsolv
 Group:		System Environment/Libraries
 License:	LGPLv2+
@@ -107,6 +107,27 @@ popd
 %exclude %{python3_sitearch}/hawkey/test/__pycache__
 
 %changelog
+
+* Sun Feb 15 2015 Jan Silhan <jsilhan@redhat.com> - 0.5.3-1
+- revert of API breakage (Jan Silhan)
+- Add Peter to Authors (Peter Hjalmarsson)
+- Add support for armv6hl (Peter Hjalmarsson)
+- README: made readthedoc documentation official (Jan Silhan)
+- sack: deprecation of create_cmdline_repo (Jan Silhan)
+- does not break Sack.__init__ API from 8ce3ce7 (Jan Silhan)
+- doc: document the new logdir parameter of Sack.__init__. (Radek Holy)
+- apichange: sack: added optional param logdir (Related:RhBug:1175434) (Jan Silhan)
+- apichange: py: rename: Sack.cache_path -> Sack.cache_dir (Radek Holy)
+- doc: add Sack to the Python API reference manual. (Radek Holy)
+- cosmetic: autopep8 applied on __init__.py (Jan Silhan)
+- query: support multiple flags in filter (RhBug:1173027) (Jan Silhan)
+- packaging: make the spec file compatible with GitHub packaging guideliness. (Radek Holy)
+- New version: 0.5.2 (Michal Luscon)
+- hy_chksum_str() returns NULL in case of incorrect type (Michal Luscon)
+- Fix defects found by coverity scan (Michal Luscon)
+- selector: allow selecting provides with globs (RhBug: 1148353) (Michal Luscon)
+- py: nevra_init() references possibly uninitialized variable. (Ales Kozumplik)
+- package: add weak deps attributes. (Ales Kozumplik)
 
 * Thu Sep 18 2014 Aleš Kozumplik <ales@redhat.com> - 0.5.1-1
 - pool_split_evr() assert if we hit unexpected data. (Related:RhBug:1141634) (Ales Kozumplik)
