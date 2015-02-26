@@ -1,6 +1,6 @@
 #! /bin/bash
 
-GITREV=`git rev-parse HEAD`
+GITREV=${1:-$(git rev-parse HEAD)}
 [[ $# -gt 1 ]] && GITREV=$1
 
 echo $GITREV

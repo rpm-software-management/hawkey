@@ -1,5 +1,5 @@
-%global gitrev 85826ee4905b0422e3490fc2aa1b6d9bd6a302b2
-%global libsolv_version 0.6.4-1
+%{!?gitrev: %global gitrev 85826ee4905b0422e3490fc2aa1b6d9bd6a302b2}
+%{!?libsolv_version: %global libsolv_version 0.6.4-1}
 
 %if 0%{?rhel} <= 7
 %bcond_with python3

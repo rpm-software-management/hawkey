@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DIR=$(dirname "$0")
+GITREV=${1:-$(git rev-parse HEAD)}
+
+$DIR/archive "$GITREV"
+rpmbuild -ba --define "gitrev $GITREV" $DIR/*.spec
