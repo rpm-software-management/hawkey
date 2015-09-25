@@ -372,7 +372,10 @@ run(_GoalObject *self, PyObject *args, PyObject *kwds)
     if (!args_run_parse(args, kwds, &flags, NULL))
 	return NULL;
 
-    int ret = hy_goal_run_flags(self->goal, flags);
+    int ret;
+    Py_BEGIN_ALLOW_THREADS;
+    ret = hy_goal_run_flags(self->goal, flags);
+    Py_END_ALLOW_THREADS;
     if (!ret)
 	Py_RETURN_TRUE;
     Py_RETURN_FALSE;
@@ -388,6 +391,7 @@ static int
 py_solver_callback(HyGoal goal, void *data)
 {
     struct _PySolutionCallback *cb_s = (struct _PySolutionCallback*)data;
+    PyGILState_STATE state = PyGILState_Ensure();
 
     PyObject *ret = PyObject_CallObject(cb_s->callback, cb_s->callback_tuple);
     if (ret)
@@ -395,6 +399,7 @@ py_solver_callback(HyGoal goal, void *data)
     else
 	cb_s->errors++;
 
+    PyGILState_Release(state);
     return 0; /* solution_callback() result is ignored in libsolv */
 }
 
@@ -411,8 +416,10 @@ run_all(_GoalObject *self, PyObject *args, PyObject *kwds)
 	return NULL;
 
     struct _PySolutionCallback cb_s = {callback_tuple, callback, 0};
-    int ret = hy_goal_run_all_flags(self->goal, py_solver_callback, &cb_s,
-				    flags);
+    int ret;
+    Py_BEGIN_ALLOW_THREADS;
+    ret = hy_goal_run_all_flags(self->goal, py_solver_callback, &cb_s, flags);
+    Py_END_ALLOW_THREADS;
     Py_DECREF(callback_tuple);
     if (cb_s.errors > 0)
 	return NULL;
