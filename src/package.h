@@ -60,6 +60,7 @@ const char *hy_package_get_arch(HyPackage pkg);
 const unsigned char *hy_package_get_chksum(HyPackage pkg, int *type);
 const char *hy_package_get_description(HyPackage pkg);
 const char *hy_package_get_evr(HyPackage pkg);
+const char *hy_package_get_group(HyPackage pkg);
 const char *hy_package_get_license(HyPackage pkg);
 const unsigned char *hy_package_get_hdr_chksum(HyPackage pkg, int *type);
 const char *hy_package_get_packager(HyPackage pkg);

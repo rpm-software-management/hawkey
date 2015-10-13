@@ -299,6 +299,12 @@ hy_package_get_evr(HyPackage pkg)
 }
 
 const char *
+hy_package_get_group(HyPackage pkg)
+{
+    return solvable_lookup_str(get_solvable(pkg), SOLVABLE_GROUP);
+}
+
+const char *
 hy_package_get_license(HyPackage pkg)
 {
     return solvable_lookup_str(get_solvable(pkg), SOLVABLE_LICENSE);
