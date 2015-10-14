@@ -8,7 +8,7 @@
 %endif
 
 Name:		hawkey
-Version:	0.6.1
+Version:	0.6.2
 Release:	1%{?snapshot}%{?dist}
 Summary:	Library providing simplified C and Python API to libsolv
 Group:		System Environment/Libraries
@@ -144,6 +144,14 @@ popd
 %endif
 
 %changelog
+* Wed Oct 14 2015 Jan Silhan <jsilhan@redhat.com> 0.6.2-1
+- ignore exludes in running_kernel query (RhBug:Related:1260989) (Michal
+  Luscon)
+- spec: Use `make test` for py3 rather than calling test internals (Colin
+  Walters)
+- added valgrind test (Jan Silhan)
+- Fail with comprehensible error message (RhBug:1265234) (Michael Mraka)
+
 * Tue Sep 22 2015 Michal Luscon <mluscon@redhat.com> 0.6.1-1
 - fixed memleaks from 2f5b9af (Jan Silhan)
 - Support list of strings in provides/requires. (RhBug:1243005)(RhBug:1243002)
