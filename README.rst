@@ -1,3 +1,5 @@
+Hawkey project has been merged inside `libhif <https://github.com/rpm-software-management/libhif>`_ project. Development of Hawkey project as alone no longer continues. Use `libhif <https://github.com/rpm-software-management/libhif>`_, please.
+
 ========
  Hawkey
 ========
