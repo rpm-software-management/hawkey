@@ -332,6 +332,8 @@ static PyGetSetDef package_getsetters[] = {
      (void *)hy_package_get_recommends},
     {"requires",  (getter)get_reldep, NULL, NULL,
      (void *)hy_package_get_requires},
+    {"requires_pre",  (getter)get_reldep, NULL, NULL,
+     (void *)hy_package_get_requires_pre},
     {"suggests",  (getter)get_reldep, NULL, NULL,
      (void *)hy_package_get_suggests},
     {"supplements",  (getter)get_reldep, NULL, NULL,

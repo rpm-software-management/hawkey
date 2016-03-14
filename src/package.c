@@ -25,6 +25,7 @@
 #include <solv/evr.h>
 #include <solv/pool.h>
 #include <solv/repo.h>
+#include <solv/queue.h>
 #include <solv/util.h>
 
 // hawkey
@@ -65,9 +66,16 @@ reldeps_for(HyPackage pkg, Id type)
     Solvable *s = get_solvable(pkg);
     HyReldepList reldeplist;
     Queue q;
+    Id marker = -1;
+    Id solv_type = type;
 
+    if (type == SOLVABLE_PREREQMARKER) {
+        solv_type = SOLVABLE_REQUIRES;
+        marker = 1;
+    }
     queue_init(&q);
-    solvable_lookup_deparray(s, type, &q, -1);
+    solvable_lookup_deparray(s, solv_type, &q, marker);
+
     reldeplist = reldeplist_from_queue(pool, q);
 
     queue_free(&q);
@@ -422,6 +430,12 @@ HyReldepList
 hy_package_get_requires(HyPackage pkg)
 {
     return reldeps_for(pkg, SOLVABLE_REQUIRES);
+}
+
+HyReldepList
+hy_package_get_requires_pre(HyPackage pkg)
+{
+    return reldeps_for(pkg, SOLVABLE_PREREQMARKER);
 }
 
 HyReldepList
