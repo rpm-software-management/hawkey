@@ -8,7 +8,7 @@
 %endif
 
 Name:		hawkey
-Version:	0.6.2
+Version:	0.6.3
 Release:	1%{?snapshot}%{?dist}
 Summary:	Library providing simplified C and Python API to libsolv
 Group:		System Environment/Libraries
@@ -144,6 +144,12 @@ popd
 %endif
 
 %changelog
+* Mon Mar 21 2016 Jan Silhan <jsilhan@redhat.com> 0.6.3-1
+- Add support for retrieving Group tag from package (Neal Gompa (ニール・ゴンパ))
+- python: release GIL around hy_goal_run* calls (Mikolaj Izdebski)
+- README: hawkey replaced by libhif (Jan Šilhan)
+- fix build without valgrind (RhBug:1289865) (Dan Horák)
+
 * Wed Oct 14 2015 Jan Silhan <jsilhan@redhat.com> 0.6.2-1
 - ignore exludes in running_kernel query (RhBug:Related:1260989) (Michal
   Luscon)
