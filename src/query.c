@@ -1274,3 +1274,27 @@ hy_query_run_set(HyQuery q)
     hy_query_apply(q);
     return packageset_from_bitmap(q->sack, q->result);
 }
+
+void
+hy_query_union(HyQuery q, HyQuery other)
+{
+    hy_query_apply(q);
+    hy_query_apply(other);
+    map_or(q->result, other->result);
+}
+
+void
+hy_query_intersection(HyQuery q, HyQuery other)
+{
+    hy_query_apply(q);
+    hy_query_apply(other);
+    map_and(q->result, other->result);
+}
+
+void
+hy_query_difference(HyQuery q, HyQuery other)
+{
+    hy_query_apply(q);
+    hy_query_apply(other);
+    map_subtract(q->result, other->result);
+}

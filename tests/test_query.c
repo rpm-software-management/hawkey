@@ -991,6 +991,54 @@ START_TEST(test_query_apply)
 }
 END_TEST
 
+START_TEST(test_difference)
+{
+    HyQuery q1 = hy_query_create(test_globals.sack);
+    hy_query_filter(q1, HY_PKG_VERSION, HY_EQ, "4");
+    HyQuery q2 = hy_query_create(test_globals.sack);
+    hy_query_filter(q2, HY_PKG_NAME, HY_GLOB, "p*");
+
+    hy_query_difference(q1, q2);
+    HyPackageList plist = hy_query_run(q1);
+    ck_assert_int_eq(hy_packagelist_count(plist), 2);
+    hy_packagelist_free(plist);
+    hy_query_free(q2);
+    hy_query_free(q1);
+}
+END_TEST
+
+START_TEST(test_intersection)
+{
+    HyQuery q1 = hy_query_create(test_globals.sack);
+    hy_query_filter(q1, HY_PKG_VERSION, HY_EQ, "4");
+    HyQuery q2 = hy_query_create(test_globals.sack);
+    hy_query_filter(q2, HY_PKG_NAME, HY_GLOB, "p*");
+
+    hy_query_intersection(q1, q2);
+    HyPackageList plist = hy_query_run(q1);
+    ck_assert_int_eq(hy_packagelist_count(plist), 7);
+    hy_packagelist_free(plist);
+    hy_query_free(q2);
+    hy_query_free(q1);
+}
+END_TEST
+
+START_TEST(test_union)
+{
+    HyQuery q1 = hy_query_create(test_globals.sack);
+    hy_query_filter(q1, HY_PKG_VERSION, HY_EQ, "4");
+    HyQuery q2 = hy_query_create(test_globals.sack);
+    hy_query_filter(q2, HY_PKG_NAME, HY_GLOB, "p*");
+
+    hy_query_union(q1, q2);
+    HyPackageList plist = hy_query_run(q1);
+    ck_assert_int_eq(hy_packagelist_count(plist), 11);
+    hy_packagelist_free(plist);
+    hy_query_free(q2);
+    hy_query_free(q1);
+}
+END_TEST
+
 Suite *
 query_suite(void)
 {
@@ -1073,6 +1121,13 @@ query_suite(void)
     tcase_add_checked_fixture(tc, fixture_reset, NULL);
     tcase_add_test(tc, test_excluded);
     tcase_add_test(tc, test_disabled_repo);
+    suite_add_tcase(s, tc);
+
+    tc = tcase_create("Set Operations");
+    tcase_add_unchecked_fixture(tc, fixture_with_main, teardown);
+    tcase_add_test(tc, test_difference);
+    tcase_add_test(tc, test_intersection);
+    tcase_add_test(tc, test_union);
     suite_add_tcase(s, tc);
 
     return s;

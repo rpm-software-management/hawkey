@@ -89,6 +89,9 @@ void hy_query_filter_latest(HyQuery q, int val);
 HyPackageList hy_query_run(HyQuery q);
 HyPackageSet hy_query_run_set(HyQuery q);
 
+void hy_query_union(HyQuery q, HyQuery other);
+void hy_query_intersection(HyQuery q, HyQuery other);
+void hy_query_difference(HyQuery q, HyQuery other);
 
 #ifdef __cplusplus
 }
