@@ -1,96 +1,104 @@
 %global libsolv_version 0.6.4-1
 
-%if 0%{?rhel} != 0 && 0%{?rhel} <= 7
-# Do not build bindings for python3 for RHEL <= 7
+%if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python3
 %else
 %bcond_without python3
 %endif
 
-Name:		hawkey
-Version:	0.6.3
-Release:	1%{?snapshot}%{?dist}
-Summary:	Library providing simplified C and Python API to libsolv
-Group:		System Environment/Libraries
-License:	LGPLv2+
-URL:		https://github.com/rpm-software-management/%{name}
-# git clone https://github.com/rpm-software-management/hawkey.git && cd hawkey && tito build --tgz
-Source0:	https://github.com/rpm-software-management/%{name}/archive/%{name}-%{version}.tar.gz
-BuildRequires:	libsolv-devel >= %{libsolv_version}
-BuildRequires:	cmake expat-devel rpm-devel zlib-devel check-devel valgrind
-Requires:	libsolv%{?_isa} >= %{libsolv_version}
-# prevent provides from nonstandard paths:
-%filter_provides_in %{python_sitearch}/.*\.so$
-%if %{with python3}
-%filter_provides_in %{python3_sitearch}/.*\.so$
+Name:           hawkey
+Version:        0.6.3
+Release:        1%{?dist}
+Summary:        Library providing simplified C and Python API to libsolv
+License:        LGPLv2+
+URL:            https://github.com/rpm-software-management/%{name}
+Source0:        %{url}/archive/%{name}-%{version}.tar.gz
+BuildRequires:  libsolv-devel >= %{libsolv_version}
+BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  expat-devel
+BuildRequires:  rpm-devel
+BuildRequires:  zlib-devel
+BuildRequires:  check-devel
+%ifnarch s390
+BuildRequires:  valgrind
 %endif
-# filter out _hawkey_testmodule.so DT_NEEDED _hawkeymodule.so:
-%filter_requires_in %{python_sitearch}/hawkey/test/.*\.so$
-%if %{with python3}
-%filter_requires_in %{python3_sitearch}/hawkey/test/.*\.so$
-%endif
-%filter_setup
+Requires:       libsolv%{?_isa} >= %{libsolv_version}
 
 %description
 A Library providing simplified C and Python API to libsolv.
 
 %package devel
-Summary:	A Library providing simplified C and Python API to libsolv
-Group:		Development/Libraries
-Requires:	hawkey%{?_isa} = %{version}-%{release}
-Requires:	libsolv-devel
+Summary:        A Library providing simplified C and Python API to libsolv
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       libsolv-devel
 
 %description devel
 Development files for hawkey.
 
-%package -n python-hawkey
-Summary:	Python 2 bindings for the hawkey library
-Group:		Development/Languages
+%package -n python2-%{name}
+Summary:        Python 2 bindings for the hawkey library
+%{?python_provide:%python_provide python2-%{name}}
 BuildRequires:  python2-devel
+%if 0%{?rhel} && 0%{?rhel} <= 7
 BuildRequires:  python-nose
-%if %{with python3}
-BuildRequires:	python-sphinx >= 1.1.3-9
 %else
-BuildRequires:	python-sphinx
+BuildRequires:  python2-nose
 %endif
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if (0%{?rhel} && 0%{?rhel} <= 7) || (0%{?fedora} && 0%{?fedora} <= 23)
+BuildRequires:  python-sphinx
+%else
+BuildRequires:  python2-sphinx
+%endif
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description -n python-hawkey
+%description -n python2-%{name}
 Python 2 bindings for the hawkey library.
 
 %if %{with python3}
-%package -n python3-hawkey
-Summary:	Python 3 bindings for the hawkey library
-Group:		Development/Languages
-BuildRequires:	python3-devel
-BuildRequires:	python3-nose
-BuildRequires:	python3-sphinx >= 1.1.3-9
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+%package -n python3-%{name}
+Summary:        Python 3 bindings for the hawkey library
+%{?python_provide:%python_provide python3-%{name}}
+BuildRequires:  python3-devel
+BuildRequires:  python3-nose
+BuildRequires:  python3-sphinx
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 
-%description -n python3-hawkey
+%description -n python3-%{name}
 Python 3 bindings for the hawkey library.
 %endif
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup
+
+mkdir build
 
 %if %{with python3}
-rm -rf py3
-mkdir ../py3
-cp -a . ../py3/
-mv ../py3 ./
+mkdir build-py3
 %endif
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .
-make %{?_smp_mflags}
-make doc-man
+pushd build
+  %cmake ../
+  %make_build
+  make doc-man
+popd
 
 %if %{with python3}
-pushd py3
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:str=3.
-make %{?_smp_mflags}
-make doc-man
+pushd build-py3
+  %cmake ../ -DPYTHON_DESIRED:str=3
+  %make_build
+  make doc-man
+popd
+%endif
+
+%install
+pushd build
+  %make_install
+popd
+%if %{with python3}
+pushd build-py3
+  %make_install
 popd
 %endif
 
@@ -102,45 +110,37 @@ Please build the package as non-root user.
 ERROR
         exit 1
 fi
-make ARGS="-V" test
+pushd build
+  ctest -VV
+popd
 %if %{with python3}
 # Run just the Python tests, not all of them, since
 # we have coverage of the core from the first build
-pushd py3/tests/python
-make ARGS="-V" test
-popd
-%endif
-
-%install
-make install DESTDIR=$RPM_BUILD_ROOT
-%if %{with python3}
-pushd py3
-make install DESTDIR=$RPM_BUILD_ROOT
+pushd build-py3/tests/python
+  ctest -VV
 popd
 %endif
 
 %post -p /sbin/ldconfig
-
 %postun -p /sbin/ldconfig
 
 %files
-%doc COPYING README.rst
-%{_libdir}/libhawkey.so.*
+%license COPYING
+%doc README.rst
+%{_libdir}/lib%{name}.so.*
 
 %files devel
-%{_libdir}/libhawkey.so
-%{_libdir}/pkgconfig/hawkey.pc
-%{_includedir}/hawkey/
-%{_mandir}/man3/hawkey.3.gz
+%{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
+%{_includedir}/%{name}/
+%{_mandir}/man3/%{name}.3*
 
-%files -n python-hawkey
-%{python_sitearch}/
+%files -n python2-%{name}
+%{python2_sitearch}/%{name}/
 
 %if %{with python3}
-%files -n python3-hawkey
-%{python3_sitearch}/
-%exclude %{python3_sitearch}/hawkey/__pycache__
-%exclude %{python3_sitearch}/hawkey/test/__pycache__
+%files -n python3-%{name}
+%{python3_sitearch}/%{name}/
 %endif
 
 %changelog
