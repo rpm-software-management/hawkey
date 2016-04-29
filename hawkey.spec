@@ -8,7 +8,7 @@
 
 Name:           hawkey
 Version:        0.6.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library providing simplified C and Python API to libsolv
 License:        LGPLv2+
 URL:            https://github.com/rpm-software-management/%{name}
@@ -144,6 +144,9 @@ popd
 %endif
 
 %changelog
+* Fri Apr 29 2016 Igor Gnatenko <ignatenko@redhat.com> 0.6.3-2
+- spec: Fix packaging to comply packaging guidelines (Igor Gnatenko)
+
 * Mon Mar 21 2016 Jan Silhan <jsilhan@redhat.com> 0.6.3-1
 - Add support for retrieving Group tag from package (Neal Gompa (ニール・ゴンパ))
 - python: release GIL around hy_goal_run* calls (Mikolaj Izdebski)
