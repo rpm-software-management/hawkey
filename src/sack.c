@@ -165,6 +165,9 @@ setarch(HySack sack, const char *req_arch)
 
     HY_LOG_INFO("Architecture is: %s", arch);
     pool_setarch(pool, arch);
+    /* Since one of commits after 0.6.20 libsolv allowes custom arches
+     * which means it will be 'newcoolarch' ad 'noarch' always. */
+#if LIBSOLV_VERSION <= 620
     if (!strcmp(arch, "noarch"))
 	// noarch never fails
 	goto done;
@@ -178,7 +181,7 @@ setarch(HySack sack, const char *req_arch)
 	    count++;
     if (count < 2)
 	ret = HY_E_FAILED;
-
+#endif
  done:
     solv_free(detected);
     return ret;
