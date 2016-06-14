@@ -39,6 +39,7 @@
 #include "goal_internal.h"
 #include "iutil.h"
 #include "package_internal.h"
+#include "packageset.h"
 #include "query_internal.h"
 #include "reldep_internal.h"
 #include "repo_internal.h"
@@ -353,6 +354,34 @@ job_has(Queue *job, Id what, Id id)
     return 0;
 }
 
+/**
+ * add_preferred_provide:
+ * when searching by provides the packages that contain the same
+ * name as provide or contain obsoletes with the same name as their
+ * provide will be picked first
+ */
+static void
+add_preferred_provide(HySack sack, Queue *job, Id id)
+{
+    Pool *pool = sack_pool(sack);
+    const char *name = pool_dep2str(pool, id);
+    HyQuery q = hy_query_create(sack);
+    hy_query_filter(q, HY_PKG_NAME, HY_NEQ, name);
+    HyPackageSet pset = hy_query_run_set(q);
+    hy_query_filter(q, HY_PKG_PROVIDES, HY_EQ, name);
+    hy_query_filter_package_in(q, HY_PKG_OBSOLETES, HY_NEQ, pset);
+    HyPackageList plist = hy_query_run(q);
+    for (int i = 0; i < hy_packagelist_count(plist); i++) {
+        HyPackage pkg = hy_packagelist_get(plist, i);
+        queue_push2(job, SOLVER_DISFAVOR|SOLVER_SOLVABLE,
+                    package_id(pkg));
+    }
+    queue_push2(job, SOLVER_SOLVABLE_PROVIDES, id);
+    hy_query_free(q);
+    hy_packageset_free(pset);
+    hy_packagelist_free(plist);
+}
+
 static int
 filter_arch2job(HySack sack, const struct _Filter *f, Queue *job)
 {
@@ -472,7 +501,7 @@ filter_provides2job(HySack sack, const struct _Filter *f, Queue *job)
     switch (f->cmp_type) {
     case HY_EQ:
 	id = reldep_id(f->matches[0].reldep);
-	queue_push2(job, SOLVER_SOLVABLE_PROVIDES, id);
+	add_preferred_provide(sack, job, id);
 	break;
     case HY_GLOB:
 	dataiterator_init(&di, pool, 0, 0, SOLVABLE_PROVIDES, name, SEARCH_GLOB);
@@ -483,7 +512,7 @@ filter_provides2job(HySack sack, const struct _Filter *f, Queue *job)
 	assert(di.idp);
 	id = *di.idp;
 	if (!job_has(job, SOLVABLE_PROVIDES, id))
-	    queue_push2(job, SOLVER_SOLVABLE_PROVIDES, id);
+	    add_preferred_provide(sack, job, id);
 	dataiterator_free(&di);
 	break;
     default:
