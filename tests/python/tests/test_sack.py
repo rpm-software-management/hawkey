@@ -55,8 +55,6 @@ class BasicTest(unittest.TestCase):
     def test_creation(self):
         hawkey.Sack(arch="noarch")
         hawkey.Sack(arch="x86_64")
-        self.assertRaises(hawkey.ArchException, hawkey.Sack, arch="")
-        self.assertRaises(hawkey.ValueException, hawkey.Sack, arch="play")
 
     def test_deepcopy(self):
         sack = hawkey.Sack()

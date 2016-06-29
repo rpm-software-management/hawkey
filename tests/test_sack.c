@@ -55,10 +55,6 @@ START_TEST(test_sack_create)
     fail_if(sack_pool(sack) == NULL, NULL);
     hy_sack_free(sack);
 
-    sack = hy_sack_create(test_globals.tmpdir, "", NULL, NULL,
-			  HY_MAKE_CACHE_DIR);
-    fail_unless(sack == NULL);
-    fail_unless(hy_get_errno() == HY_E_ARCH);
 }
 END_TEST
 

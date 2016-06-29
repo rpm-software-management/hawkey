@@ -1,4 +1,4 @@
-%global libsolv_version 0.6.4-1
+%global libsolv_version 0.6.21-1
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python3
