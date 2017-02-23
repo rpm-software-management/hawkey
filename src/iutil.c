@@ -39,6 +39,7 @@
 #include <solv/solver.h>
 #include <solv/solverdebug.h>
 #include <solv/util.h>
+#include <solv/pool_parserpmrichdep.h>
 
 // hawkey
 #include "errno_internal.h"
@@ -47,6 +48,7 @@
 #include "packageset_internal.h"
 #include "query.h"
 #include "reldep.h"
+#include "reldep_internal.h"
 #include "sack_internal.h"
 
 #define BUF_BLOCK 4096
@@ -788,14 +790,23 @@ parse_reldep_str(const char *reldep_str, char **name, char **evr,
 HyReldep
 reldep_from_str(HySack sack, const char *reldep_str)
 {
-    char *name, *evr = NULL;
-    int cmp_type = 0;
-    if (parse_reldep_str(reldep_str, &name, &evr, &cmp_type) == -1)
-	return NULL;
-    HyReldep reldep = hy_reldep_create(sack, name, cmp_type, evr);
-    solv_free(name);
-    solv_free(evr);
-    return reldep;
+    if (reldep_str[0] == '(') {
+        /* Rich dependency */
+        Pool *pool = sack_pool(sack);
+        Id id = pool_parserpmrichdep(pool, reldep_str);
+        if (!id)
+            return NULL;
+        return reldep_create(pool, id);
+    } else {
+        char *name, *evr = NULL;
+        int cmp_type = 0;
+        if (parse_reldep_str(reldep_str, &name, &evr, &cmp_type) == -1)
+            return NULL;
+        HyReldep reldep = hy_reldep_create(sack, name, cmp_type, evr);
+        solv_free(name);
+        solv_free(evr);
+        return reldep;
+    }
 }
 
 HyReldepList
