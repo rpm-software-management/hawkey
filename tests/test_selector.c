@@ -41,8 +41,11 @@ END_TEST
 START_TEST(test_sltr_provides)
 {
     HySelector sltr = hy_selector_create(test_globals.sack);
-    ck_assert_int_eq(hy_selector_set(sltr, HY_PKG_PROVIDES, HY_EQ, "*"),
-		     HY_E_SELECTOR);
+    fail_if(hy_selector_set(sltr, HY_PKG_PROVIDES, HY_EQ, "*"));
+    HyPackageList plist = hy_selector_matches(sltr);
+    fail_unless(hy_packagelist_count(plist) == 0);
+
+    hy_packagelist_free(plist);
     hy_selector_free(sltr);
 }
 END_TEST

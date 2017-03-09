@@ -73,11 +73,7 @@ HyReldep
 hy_reldep_create(HySack sack, const char *name, int cmp_type, const char *evr)
 {
     Pool *pool = sack_pool(sack);
-    Id id = pool_str2id(pool, name, 0);
-
-    if (id == STRID_NULL || id == STRID_EMPTY)
-	// stop right there, this will never match anything.
-	return NULL;
+    Id id = pool_str2id(pool, name, 1);
 
     if (evr) {
 	assert(cmp_type);
