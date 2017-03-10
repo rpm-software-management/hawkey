@@ -7,8 +7,8 @@
 %endif
 
 Name:           hawkey
-Version:        0.6.3
-Release:        2%{?dist}
+Version:        0.6.4
+Release:        1%{?dist}
 Summary:        Library providing simplified C and Python API to libsolv
 License:        LGPLv2+
 URL:            https://github.com/rpm-software-management/%{name}
@@ -144,6 +144,21 @@ popd
 %endif
 
 %changelog
+* Fri Mar 10 2017 Igor Gnatenko <ignatenko@redhat.com> 0.6.4-1
+- Add file provides into pool for .rpm (RhBug:1263888) (Jaroslav Mracek)
+- Python 3.6 invalid escape sequence deprecation fixes (Ville Skyttä)
+- implement query.filter(pkg__neq=..) (RhBug: 1233770) (Michael Mraka)
+- hy-query: implemented set operations (union, intersection, difference)
+  (Michael Mraka)
+- hy-package: add support for Requires(pre) (Related:RhBug:1303117) (Michal
+  Luscon)
+- nevra: added _has_just_name helper method (Jan Silhan)
+- selector: prefer obsoletes (Related:RhBug:1096506) (Jan Silhan)
+- build: don't set default build type and define _GNU_SOURCE (Igor Gnatenko)
+- util: detect armv7hnl properly (Igor Gnatenko)
+- Fixes for building with libsolv-0.6.21 (#117) (Neal Gompa (ニール・ゴンパ))
+- sack: don't raise error when non-existing arch is used (Igor Gnatenko)
+
 * Fri Apr 29 2016 Igor Gnatenko <ignatenko@redhat.com> 0.6.3-2
 - spec: Fix packaging to comply packaging guidelines (Igor Gnatenko)
 
