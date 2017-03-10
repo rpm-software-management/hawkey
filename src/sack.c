@@ -1148,6 +1148,7 @@ void
 sack_make_provides_ready(HySack sack)
 {
     if (!sack->provides_ready) {
+    repo_internalize_all_trigger(sack_pool(sack));
 	Queue addedfileprovides;
 	Queue addedfileprovides_inst;
 	queue_init(&addedfileprovides);

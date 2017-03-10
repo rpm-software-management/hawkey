@@ -240,7 +240,6 @@ solve(HyGoal goal, Queue *job, int flags, hy_solution_callback user_cb,
     /* apply the excludes */
     sack_recompute_considered(sack);
 
-    repo_internalize_all_trigger(sack_pool(sack));
     sack_make_provides_ready(sack);
     if (goal->trans) {
 	transaction_free(goal->trans);
